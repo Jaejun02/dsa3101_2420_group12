@@ -4,8 +4,13 @@ channels:
   - defaults
 dependencies:
   - python=3.12
-  - pytorch
+  - requests
+  - beautifulsoup4
+  - urllib3
+  - ipykernel
   - pip
+  - selenium
+  - pandas
+  - numpy
   - pip:
-      - python-dotenv
-      - transformers
+    - python-dotenv
