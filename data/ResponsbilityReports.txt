@@ -1,0 +1,93 @@
+Industry: Auto Manufacturers - Major, Company: Aston Martin Lagonda Global Holdings
+Industry: Auto Manufacturers - Major, Company: Audi AG
+Industry: Auto Manufacturers - Major, Company: BMW AG
+Industry: Auto Manufacturers - Major, Company: Centuria Capital Group
+Industry: Auto Manufacturers - Major, Company: Elanor Investors Group
+Industry: Auto Manufacturers - Major, Company: Electrameccanica Vehicles Corp. Ltd.
+Industry: Auto Manufacturers - Major, Company: Ferrari N.V.
+Industry: Auto Manufacturers - Major, Company: Fisker Inc.
+Industry: Auto Manufacturers - Major, Company: Ford Motor Company
+Industry: Auto Manufacturers - Major, Company: JM Family Enterprises
+Industry: Auto Manufacturers - Major, Company: Mahindra & Mahindra
+Industry: Auto Manufacturers - Major, Company: Mercedes-Benz Group AG
+Industry: Auto Manufacturers - Major, Company: NFI Group Inc.
+Industry: Auto Manufacturers - Major, Company: NIO
+Industry: Auto Manufacturers - Major, Company: Nissan Motor Co., Ltd.
+Industry: Auto Manufacturers - Major, Company: Niu Technologies
+Industry: Auto Manufacturers - Major, Company: Rivian
+Industry: Auto Manufacturers - Major, Company: Stellantis
+Industry: Auto Manufacturers - Major, Company: Subaru Corporation
+Industry: Auto Manufacturers - Major, Company: Toyota Motor Corp.
+Industry: Auto Parts, Company: Adient Plc
+Industry: Auto Parts, Company: Allison Transmission
+Industry: Auto Parts, Company: American Tire Distributors
+Industry: Auto Parts, Company: Antolin
+Industry: Auto Parts, Company: Aptiv
+Industry: Auto Parts, Company: Autoliv Inc.
+Industry: Auto Parts, Company: Autoneum
+Industry: Auto Parts, Company: BorgWarner
+Industry: Auto Parts, Company: Bridgestone Corporation
+Industry: Auto Parts, Company: CIE Automotive
+Industry: Auto Parts, Company: Continental AG
+Industry: Auto Parts, Company: Cooper-Standard Holdings Inc
+Industry: Auto Parts, Company: Dana Incorporated
+Industry: Auto Parts, Company: Delphi
+Industry: Auto Parts, Company: Dorman Products, Inc.
+Industry: Auto Parts, Company: Douglas Dynamics Inc
+Industry: Auto Parts, Company: Exco Technologies Limited
+Industry: Auto Parts, Company: Garrett Motion Inc.
+Industry: Auto Parts, Company: Gentex Corporation
+Industry: Auto Parts, Company: Gentherm Inc
+Industry: Auto Parts, Company: Gestamp
+Industry: Auto Parts, Company: Goodyear Tire & Rubber Co.
+Industry: Auto Parts, Company: Haldex
+Industry: Auto Parts, Company: Heineken N.V.
+Industry: Auto Parts, Company: Horizon Global Corporation
+Industry: Auto Parts, Company: Hyliion Holdings Corp.
+Industry: Auto Parts, Company: Johnson Controls International plc
+Industry: Auto Parts, Company: Kendrion N.V.
+Industry: Auto Parts, Company: Knorr-Bremse AG
+Industry: Auto Parts, Company: Kongsberg Automotive
+Industry: Auto Parts, Company: Lear Corporation
+Industry: Auto Parts, Company: Linamar Corp.
+Industry: Auto Parts, Company: Magna International, Inc.
+Industry: Auto Parts, Company: MANDO
+Industry: Auto Parts, Company: Martinrea International Inc.
+Industry: Auto Parts, Company: Meritor, Inc.
+Industry: Auto Parts, Company: Modine Manufacturing Co.
+Industry: Auto Parts, Company: Monro, Inc.
+Industry: Auto Parts, Company: Nokian Tyres plc
+Industry: Auto Parts, Company: NSK Ltd.
+Industry: Auto Parts, Company: PHINIA
+Industry: Auto Parts, Company: QuantumScape Corporation
+Industry: Auto Parts, Company: Rush Enterprises, Inc.
+Industry: Auto Parts, Company: SAF-Holland
+Industry: Auto Parts, Company: Schaeffler Technologies
+Industry: Auto Parts, Company: Semperit AG Holding
+Industry: Auto Parts, Company: Standard Motor Products Inc.
+Industry: Auto Parts, Company: Stoneridge, Inc.
+Industry: Auto Parts, Company: Superior Industries International
+Industry: Auto Parts, Company: Tenneco Inc.
+Industry: Auto Parts, Company: TI Fluid Systems plc
+Industry: Auto Parts, Company: Titan International, Inc.
+Industry: Auto Parts, Company: Veoneer
+Industry: Auto Parts, Company: Visteon Corp
+Industry: Auto Parts, Company: Westport Fuel Systems
+Industry: Trucks & Other Vehicles, Company: Accuride Corporation
+Industry: Trucks & Other Vehicles, Company: DB Schenker
+Industry: Trucks & Other Vehicles, Company: Navistar International Corp
+Industry: Trucks & Other Vehicles, Company: PACCAR Inc.
+Industry: Trucks & Other Vehicles, Company: Wabash National Corporation
+Industry: Auto Dealerships, Company: America's Car-Mart Inc.
+Industry: Auto Dealerships, Company: AutoNation, Inc.
+Industry: Auto Dealerships, Company: CarMax Inc.
+Industry: Auto Dealerships, Company: Cars.com Inc.
+Industry: Auto Dealerships, Company: Copart
+Industry: Auto Dealerships, Company: Lithia Motors, Inc.
+Industry: Auto Dealerships, Company: Penske Automotive Group Inc.
+Industry: Auto Dealerships, Company: Vroom, Inc.
+Industry: Auto Parts Stores, Company: Advance Auto Parts Inc.
+Industry: Auto Parts Stores, Company: AutoZone Inc.
+Industry: Auto Parts Stores, Company: Commercial Vehicle Group Inc
+Industry: Auto Parts Stores, Company: Genuine Parts
+Industry: Auto Parts Stores, Company: LKQ Corp
