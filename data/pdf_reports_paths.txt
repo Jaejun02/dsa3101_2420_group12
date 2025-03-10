@@ -1,0 +1,93 @@
+../data/Auto Manufacturers - Major-Aston Martin Lagonda Global Holdings-2023 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Audi AG-2023 Responsibility Report.pdf
+../data/Auto Manufacturers - Major-BMW AG-2019 Sustainable Value Report.pdf
+../data/Auto Manufacturers - Major-Centuria Capital Group-2023 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Elanor Investors Group-2023 ESG Report.pdf
+../data/Auto Manufacturers - Major-Electrameccanica Vehicles Corp. Ltd-2021 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Ferrari N.V-2023 Responsibility Report.pdf
+../data/Auto Manufacturers - Major-Fisker Inc-2022 ESG Impact Report.pdf
+../data/Auto Manufacturers - Major-Ford Motor Company-2024 Responsibility Report.pdf
+../data/Auto Manufacturers - Major-JM Family Enterprises-2023 Impact Report.pdf
+../data/Auto Manufacturers - Major-Mahindra & Mahindra-2023 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Mercedes-Benz Group AG-2023 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-NFI Group Inc-2023 Environmental, Social and Governance Report.pdf
+../data/Auto Manufacturers - Major-NIO-2023 Environmental, Social and Governance Report.pdf
+../data/Auto Manufacturers - Major-Nissan Motor Co., Ltd-2022 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Niu Technologies-2023 Environmental, Social and Governance Report.pdf
+../data/Auto Manufacturers - Major-Rivian-2023 Environmental and Social Metrics Report.pdf
+../data/Auto Manufacturers - Major-Stellantis-2023 Corporate Social Responsibility Report.pdf
+../data/Auto Manufacturers - Major-Subaru Corporation-2023 Sustainability Report.pdf
+../data/Auto Manufacturers - Major-Toyota Motor Corp-2023 Responsibility Report.pdf
+../data/Auto Parts-Adient Plc-2023 Sustainability Report.pdf
+../data/Auto Parts-Allison Transmission-2023 Corporate Social Responsibility Report.pdf
+../data/Auto Parts-American Tire Distributors-2022 Sustainability Annual Report.pdf
+../data/Auto Parts-Antolin-2022 Responsibility Report.pdf
+../data/Auto Parts-Aptiv-2023 Sustainability Summary Report.pdf
+../data/Auto Parts-Autoliv Inc-2023 Responsibility Report.pdf
+../data/Auto Parts-Autoneum-2023 Corporate Responsibility Report.pdf
+../data/Auto Parts-BorgWarner-2023 Sustainability Report.pdf
+../data/Auto Parts-Bridgestone Corporation-2023 Responsibility Report.pdf
+../data/Auto Parts-CIE Automotive-2023 Annual Corporate Governance Report.pdf
+../data/Auto Parts-Continental AG-2023 Sustainability Report.pdf
+../data/Auto Parts-Cooper-Standard Holdings Inc-2023 Corporate Responsibility Report.pdf
+../data/Auto Parts-Dana Incorporated-2023 Sustainability and Social Responsibility Report.pdf
+../data/Auto Parts-Delphi-2019 Sustainability Report.pdf
+../data/Auto Parts-Dorman Products, Inc-2023 Environmental, Social and Governance Report.pdf
+../data/Auto Parts-Douglas Dynamics Inc-2022 ESG Report.pdf
+../data/Auto Parts-Exco Technologies Limited-2023 Sustainability Report.pdf
+../data/Auto Parts-Garrett Motion Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-Gentex Corporation-2023 Sustainability Report.pdf
+../data/Auto Parts-Gentherm Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-Gestamp-2023 Responsibility Report.pdf
+../data/Auto Parts-Goodyear Tire & Rubber Co-2023 Corporate Responsibility Report.pdf
+../data/Auto Parts-Haldex-2022 Responsibility Report.pdf
+../data/Auto Parts-Heineken N.V-2023 Responsibility Report.pdf
+../data/Auto Parts-Horizon Global Corporation-2021 Sustainability Report.pdf
+../data/Auto Parts-Hyliion Holdings Corp-2022 Sustainability Report.pdf
+../data/Auto Parts-Johnson Controls International plc-2024 Sustainability Report.pdf
+../data/Auto Parts-Kendrion N.V-2023 Responsibility Report.pdf
+../data/Auto Parts-Knorr-Bremse AG-2023 Sustainability Report.pdf
+../data/Auto Parts-Kongsberg Automotive-2023 Sustainability Report.pdf
+../data/Auto Parts-Lear Corporation-2023 Sustainability Report.pdf
+../data/Auto Parts-Linamar Corp-2022 Sustainability Report.pdf
+../data/Auto Parts-Magna International, Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-MANDO-2020 Sustainability Report.pdf
+../data/Auto Parts-Martinrea International Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-Meritor, Inc-2021 Sustainability Report.pdf
+../data/Auto Parts-Modine Manufacturing Co-2023 Sustainability Report.pdf
+../data/Auto Parts-Monro, Inc-2023 ESG Report.pdf
+../data/Auto Parts-Nokian Tyres plc-2023 Sustainability Report.pdf
+../data/Auto Parts-NSK Ltd-2023 Responsibility Report.pdf
+../data/Auto Parts-PHINIA-2023 Sustainability Report.pdf
+../data/Auto Parts-QuantumScape Corporation-2023 Sustainability Report.pdf
+../data/Auto Parts-Rush Enterprises, Inc-2023 Corporate Responsibility Report.pdf
+../data/Auto Parts-SAF-Holland-2023 Sustainability Report.pdf
+../data/Auto Parts-Schaeffler Technologies-2023 Sustainability Report.pdf
+../data/Auto Parts-Semperit AG Holding-2023 Sustainability Report.pdf
+../data/Auto Parts-Standard Motor Products Inc-2023 Corporate Sustainability Report.pdf
+../data/Auto Parts-Stoneridge, Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-Superior Industries International-2023 Sustainability Report.pdf
+../data/Auto Parts-Tenneco Inc-2023 Sustainability Report.pdf
+../data/Auto Parts-TI Fluid Systems plc-2023 Sustainability Report.pdf
+../data/Auto Parts-Titan International, Inc-2021 Environmental, Social & Governance Report.pdf
+../data/Auto Parts-Veoneer-2023 Sustainability Report.pdf
+../data/Auto Parts-Visteon Corp-2023 Corporate Sustainability Report.pdf
+../data/Auto Parts-Westport Fuel Systems-2021 Environmental, Social & Governance Report.pdf
+../data/Trucks & Other Vehicles-Accuride Corporation-2021 Sustainability Report.pdf
+../data/Trucks & Other Vehicles-DB Schenker-2023 Responsibility Report.pdf
+../data/Trucks & Other Vehicles-Navistar International Corp-2023 Sustainability Report.pdf
+../data/Trucks & Other Vehicles-PACCAR Inc-2021 Environmental, Social and Governance (ESG) Report.pdf
+../data/Trucks & Other Vehicles-Wabash National Corporation-2023 Corporate Responsibility Report.pdf
+../data/Auto Dealerships-America's Car-Mart Inc-2023 Corporate Responsibility Report.pdf
+../data/Auto Dealerships-AutoNation, Inc-2022 Corporate Social Responsibility Report.pdf
+../data/Auto Dealerships-CarMax Inc-2023 Responsibility Report.pdf
+../data/Auto Dealerships-Cars.com Inc-2023 Corporate Social Responsibility and Community Action Report.pdf
+../data/Auto Dealerships-Copart-2023 Environmental, Social, and Governance (ESG) Report.pdf
+../data/Auto Dealerships-Lithia Motors, Inc-2023 Corporate Sustainability Report.pdf
+../data/Auto Dealerships-Penske Automotive Group Inc-2023 ESG Report.pdf
+../data/Auto Dealerships-Vroom, Inc-2022 Corporate Responsibility Report.pdf
+../data/Auto Parts Stores-Advance Auto Parts Inc-2022 Corporate Sustainability and Social Report.pdf
+../data/Auto Parts Stores-AutoZone Inc-2023 Environmental, Social and Governance Report.pdf
+../data/Auto Parts Stores-Commercial Vehicle Group Inc-2022  Environmental, Social and Governance Report.pdf
+../data/Auto Parts Stores-Genuine Parts-2023 Sustainability Report.pdf
+../data/Auto Parts Stores-LKQ Corp-2023 Sustainability Report.pdf
