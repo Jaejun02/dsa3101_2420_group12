@@ -96,3 +96,6 @@ venv.bak/
 
 # PDF Files
 *.pdf
+
+# SustainabilityReports output
+/data/SustainabilityReports/
