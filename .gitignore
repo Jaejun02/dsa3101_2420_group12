@@ -99,3 +99,6 @@ venv.bak/
 
 # SustainabilityReports output
 /data/SustainabilityReports/
+
+/data/pdfs/
+/data/preprocessed/
