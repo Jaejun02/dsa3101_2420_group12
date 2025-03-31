@@ -21,7 +21,10 @@ dependencies:
   - ipywidgets
   - nltk
   - python-dotenv
+  - faiss-cpu
   - pip:
       - python-dotenv
       - accelerate
       - bitsandbytes
+      - sentence-transformers
+      - rank-bm25
