@@ -12,5 +12,16 @@ dependencies:
   - selenium
   - pandas
   - numpy
+  - transformers
+  - huggingface_hub
+  - tokenizers
+  - sentencepiece
+  - pytorch
+  - jupyter
+  - ipywidgets
+  - nltk
+  - python-dotenv
   - pip:
-    - python-dotenv
+      - python-dotenv
+      - accelerate
+      - bitsandbytes
