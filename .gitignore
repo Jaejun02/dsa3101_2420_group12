@@ -102,3 +102,6 @@ venv.bak/
 
 /data/pdfs/
 /data/preprocessed/
+/data/processed/
+/data/txts
+/data/*.py
