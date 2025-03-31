@@ -97,9 +97,8 @@ venv.bak/
 # PDF Files
 *.pdf
 
-# SustainabilityReports output
+# data folder
 /data/SustainabilityReports/
-
 /data/pdfs/
 /data/preprocessed/
 /data/processed/
