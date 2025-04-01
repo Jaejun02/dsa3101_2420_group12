@@ -54,6 +54,7 @@ class ESGSearchEngine:
         
         # initialize faiss index
         embeddings = self.model.encode(chunks, device="cuda:0", convert_to_numpy=True, show_progress_bar=True)
+        embeddings = np.array(embeddings, dtype=np.float32)
         faiss.normalize_L2(embeddings)
         d = embeddings.shape[1]
         self.index = faiss.IndexFlatIP(d)
