@@ -86,6 +86,7 @@ class ESGSearchEngine:
             raise ValueError("Index is not initialized. Please call initialize() method first.")
         
         query_embedding = self.model.encode([query], convert_to_numpy=True)
+        query_embedding = np.array(query_embedding, dtype=np.float32)
         faiss.normalize_L2(query_embedding)
         D, I = self.index.search(query_embedding, k)
         scores = {i: D[0][idx] for idx, i in enumerate(I[0])}
