@@ -28,3 +28,12 @@ This project aims to automate the extraction and performance analysis of **Envir
 ### Installation (Windows Environment)
 1. Follow steps on the [mineru repo](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md).
 2. Same as steps 6-7 above.
+
+### Demo Project Usage Instructions
+Clear examples of how to use the project once set up/installed.
+### Technologies Used
+A list of tools, libraries, and frameworks utilized.
+### Models and Methods Used
+Details on any algorithms, models, or methods used
+### Acknowledgements
+Any external resources
