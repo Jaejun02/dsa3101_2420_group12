@@ -1,3 +1,16 @@
+# Automating ESG Data Extraction and Performance Analysis
+
+This project aims to automate the extraction and performance analysis of **Environmental, Social, and Governance (ESG)** data from unstructured ESG reports using **Large Language Models (LLMs)** and **Natural Language Processing (NLP)** techniques. The model extracts key metrics, enabling more efficient **ESG performance analysis**. This approach significantly enhances decision-making by providing scalable, automated solutions for analyzing complex ESG data across industries.
+
+### Features:
+- **Web Scraping**: 
+- **Data Extraction**: 
+- **Data Pre-processing**:
+- **Prompt Engineering**: 
+- **Search Engine**: 
+- **PowerBi Dashboarding**:
+- **Gradio Interface**:
+
 ### Installation Steps (Linux Environment)
 1. Create a virtual environment (conda or venv)
 2. Run `pip install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com`
