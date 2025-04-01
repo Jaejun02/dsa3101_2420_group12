@@ -229,15 +229,37 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
         search_engine=search_engine["engine"],
         args=args
     )
-    
+
+    qualitative_columns = [
+        "Narrative on Sustainability Goals and Actions",
+        "Progress Updates on Emission Reduction Targets",
+        "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
+        "Narrative on Workforce Diversity Employee Well-being and Safety",
+        "Disclosure on Community Engagement and Social Impact Initiatives",
+        "Narrative on Governance Framework and Board Diversity",
+        "Disclosure on ESG Risk Management and Stakeholder Engagement",
+        "Narrative on Innovations in Sustainable Technologies and Product Design",
+        "Disclosure on Sustainable Supply Chain Management Practices"
+    ]
+
+    df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
+
+    sentiment_results = sentiment_analysis(
+        df=df_sentiment, 
+        llm=main_model["model"], 
+        sampling_params=main_model["sampling_params"], 
+        tokenizer=tokenizer
+    )
+
     results["filename"] = filenames
     df = pd.DataFrame.from_dict(results)
+    df_sentiment = pd.DataFrame.from_dict(sentiment_results)
     
     # Save to CSV
     if not df.empty:
         csv_path = os.path.join(tempfile.gettempdir(), "esg_extraction_results.csv")
         df.to_csv(csv_path, index=False)
-        return df, csv_path
+        return df, csv_path, df_sentiment
     else:
         return pd.DataFrame({"message": ["No data extracted"]}), ""
 
