@@ -27,7 +27,7 @@ class ESGSearchEngine:
             tokenizer_model_path (str): Model path for tokenizer.
             use_gpu (bool): A flag to indicate whether to use GPU for encoding and indexing.
         """
-        self.model = SentenceTransformer(model_path)
+        self.model = SentenceTransformer(model_path, model_kwargs={"torch_dtype": "float16"})
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_model_path)
         self.use_gpu = use_gpu
         self.chunks = []
@@ -53,7 +53,7 @@ class ESGSearchEngine:
         self.chunks = chunks
         
         # initialize faiss index
-        embeddings = self.model.encode(chunks, convert_to_numpy=True)
+        embeddings = self.model.encode(chunks, device="cuda:0", convert_to_numpy=True, show_progress_bar=True)
         faiss.normalize_L2(embeddings)
         d = embeddings.shape[1]
         self.index = faiss.IndexFlatIP(d)
@@ -92,12 +92,12 @@ class ESGSearchEngine:
         
         return chunks, scores
     
-    def keyword_search(self, query, k):
+    def keyword_search(self, keyword_query_list, k):
         """
         Perform keyword search for the given query.
         
         Parameters:
-            query (str): The query to search for.
+            keyword_query_list (List[str]): The list of keywords to search for.
             k (int): The number of results to return.
             
         Returns:
@@ -108,13 +108,13 @@ class ESGSearchEngine:
         if self.bm25 is None:
             raise ValueError("BM25 is not initialized. Please call initialize() method first.")
         
-        scores = self.bm25.get_scores(word_tokenize(query.lower()))
-        top_indices = np.argsort(scores, reversed=True)[:k]
+        scores = self.bm25.get_scores(keyword_query_list)
+        top_indices = np.argsort(scores)[::-1][:k]
         chunks = [self.chunks[i] for i in top_indices]
         
         return chunks, {i: scores[i] for i in top_indices}
     
-    def combined_search(self, query, rerank_k=200, top_k=50, alpha=0.7):
+    def combined_search(self, query, keyword_query_list, rerank_k=200, top_k=50, alpha=0.7):
         """
         Perform combined semantic and keyword search for the given query.
         
@@ -136,7 +136,7 @@ class ESGSearchEngine:
         _, semantic_scores = self.semantic_search(query, rerank_k)
         
         # keyword search
-        _, keyword_scores = self.keyword_search(query, rerank_k)
+        _, keyword_scores = self.keyword_search(keyword_query_list, rerank_k)
         
         # combine and rerank
         combined_scores = {}
@@ -148,9 +148,11 @@ class ESGSearchEngine:
                 combined_scores[i] += (1 - alpha) * score
             else:
                 combined_scores[i] = (1 - alpha) * score
+                
+        combined_scores_tuple = list(combined_scores.items())
+        combined_scores_tuple.sort(key=lambda x: x[1], reverse=True)
+        top_k_c = combined_scores_tuple[:top_k]
+        chunks = [self.chunks[i] for i, _ in top_k_c]
         
-        top_indices = np.argsort(list(combined_scores.values()), reversed=True)[:top_k]
-        chunks = [self.chunks[i] for i in top_indices]
-        
-        return chunks, {i: combined_scores[i] for i in top_indices}
+        return chunks, {i: combined_scores[i] for i, _ in top_k_c}
         

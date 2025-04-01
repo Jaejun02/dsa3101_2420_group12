@@ -4,6 +4,7 @@ import json
 import re
 import numpy as np
 import pandas as pd
+from tqdm.auto import tqdm
 
 
 with open("./prompts/esg_indicators.json", 'r') as file:
@@ -26,20 +27,21 @@ with open('./prompts/sentiment_context.json', 'r') as file:
 
 
 def extract(pdf_texts, llm, sampling_params, tokenizer, search_engine, args):
-    all_res = {}
+    all_input_texts = []
     
-    for cur_indicator in INDICATORS:
-        input_texts = []
-        res = []
-        semantic_query = "What is the " + cur_indicator + "?" + "Here are some keywords to help you: " + ", ".join(esg_indicators[cur_indicator]['keywords'])
-        keyword_query_list = esg_indicators[cur_indicator]['keywords']
+    for i, pdf_text in enumerate(pdf_texts):
+        search_engine.initialize(pdf_text)
+        print("Initialized search engine")
 
-        for pdf_text in pdf_texts:
+        for cur_indicator in INDICATORS:
+            semantic_query = "What is the " + cur_indicator + "?" + "Here are some keywords to help you: " + ", ".join(esg_indicators[cur_indicator]['keywords'])
+            keyword_query_list = esg_indicators[cur_indicator]['keywords']
+            
             if tokenizer.pad_token_id is None:
                 tokenizer.pad_token_id = tokenizer.eos_token_id
 
-            search_engine.initialize(pdf_text)
             results, _ = search_engine.combined_search(semantic_query, keyword_query_list, rerank_k = args.rerank_k, top_k=args.top_k, alpha=args.alpha)
+            print("Got results")
             
             text_input = ""
             for text in results:
@@ -76,26 +78,27 @@ def extract(pdf_texts, llm, sampling_params, tokenizer, search_engine, args):
             """
             messages = [{'role': 'user', 'content': msg}]
             input_text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-            input_texts.append(input_text)
-            
-        outputs = llm.generate(input_texts, sampling_params=sampling_params)
-        for i, output in enumerate(outputs):
-            op = output.outputs[0].text
-            found = re.findall(r'<output>(.*?)</output>', op)
-            
-            if found:
-                op = found[0]
-            else:
-                op = None
-                
-            res.append(op)
+            all_input_texts.append(input_text)
         
-        all_res[cur_indicator] = res
+    outputs = llm.generate(all_input_texts, sampling_params=sampling_params)
+    print("Generated outputs")
+    
+    all_res = {k: [] for k in INDICATORS}
+    for i, output in enumerate(outputs):
+        op = output.outputs[0].text
+        found = re.findall(r'<output>(.*?)</output>', op)
+        
+        if found:
+            op = found[0]
+        else:
+            op = None
+            
+        all_res[INDICATORS[i % len(INDICATORS)]].append(op)
         
     return all_res
 
 
-def sentiment_analysis(df, llm, sampling_params, tokenizer, args):
+def sentiment_analysis(df, llm, sampling_params, tokenizer):
     df_big = df.map(lambda x: np.nan if isinstance(x, str) and "No data available" in x else x)
     qualitative_columns = sentiment_analysis.keys()
     input_texts = []

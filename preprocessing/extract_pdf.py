@@ -31,26 +31,33 @@ def extract_text_from_pdf_bytes(pdf_bytes, doc_name):
     return md_content
 
 
-def main():
+def extract_text_from_pdf(pdf_path):
     reader = FileBasedDataReader("")
-    pdfs = os.listdir(pdf_dir)
+    pdf_bytes = reader.read(pdf_path)
+    extracted_text = extract_text_from_pdf_bytes(pdf_bytes, pdf_path)
+    return extracted_text
 
-    for idx, pdf_file_name in tqdm(enumerate(sorted(pdfs)), total=len(pdfs)):
-        name_without_suff = pdf_file_name.split(".")[0]
-        txt_output_path = os.path.join(output_dir, f"{name_without_suff}.txt")
-        file_path = os.path.join(pdf_dir, pdf_file_name)
 
-        pdf_bytes = reader.read(file_path)
-        extracted_text = extract_text_from_pdf_bytes(pdf_bytes, name_without_suff)
+# def main():
+#     reader = FileBasedDataReader("")
+#     pdfs = os.listdir(pdf_dir)
+
+#     for idx, pdf_file_name in tqdm(enumerate(sorted(pdfs)), total=len(pdfs)):
+#         name_without_suff = pdf_file_name.split(".")[0]
+#         txt_output_path = os.path.join(output_dir, f"{name_without_suff}.txt")
+#         file_path = os.path.join(pdf_dir, pdf_file_name)
+
+#         pdf_bytes = reader.read(file_path)
+#         extracted_text = extract_text_from_pdf_bytes(pdf_bytes, name_without_suff)
         
-        # Save extracted text into its own file
-        with open(txt_output_path, "w", encoding="utf-8") as txt_file:
-            txt_file.write(extracted_text)
+#         # Save extracted text into its own file
+#         with open(txt_output_path, "w", encoding="utf-8") as txt_file:
+#             txt_file.write(extracted_text)
 
-        # except Exception as e:
-        #     print(f"Error processing {pdf_file_name}: {e}")
+#         # except Exception as e:
+#         #     print(f"Error processing {pdf_file_name}: {e}")
 
-    print("Processing complete")
+#     print("Processing complete")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
