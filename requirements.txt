@@ -1,0 +1,10 @@
+beautifulsoup4==4.13.3
+faiss-gpu==1.7.2
+gradio==5.23.1
+langchain-text-splitters==0.3.7
+nltk==3.9.1
+pandas==2.2.3
+rank-bm25==0.2.2
+sentence-transformers==4.0.1
+transformers==4.42.4
+vllm==0.5.3
