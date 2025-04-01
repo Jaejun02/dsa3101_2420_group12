@@ -1,0 +1,27 @@
+﻿Metric,Unit
+total energy consumption,MWh
+energy consumption per vehicle,MWh/vehicle
+total water usage,m³
+total wastewater volume,m³
+water recycling and reuse rate,"ratio ([0,1])"
+total GHG emissions,metric tons
+GHG emissions and intensity per vehicle,tons/vehicle
+total manufacturing waste generation,metric tons
+waste recycling and diversion rate,"ratio ([0,1])"
+battery recycling rate,"ratio ([0,1])"
+employee count,count
+employee turnover rate,ratio
+number of workplace accidents,count
+employee injury rate,%
+average training hours per employee,h/employee
+training investment per employee,$/employee
+workforce gender ratio,ratio
+workforce minority ratio,ratio
+number of corruption incidents,count
+anticorruption compliance rate,ratio
+number of anti-competitive practices,count
+monetary value of fines imposed,$
+political contributions and lobbying expenditures,$
+number of marketing compliance and ethical advertising violations,count
+sales-weighted average fuel economy/emissions,mpg
+zero emission and alternative fuel vehicle sales,count
