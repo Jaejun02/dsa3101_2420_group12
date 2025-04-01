@@ -256,13 +256,42 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
 
     df_sentiment_results = pd.DataFrame.from_dict(sentiment_results)
     
-    # Save to CSV
+    # Convert sentiment analysis results into a DataFrame for CSV output
+    sentiment_records = []
+    for company_name, fields in sentiment_results.items():
+        for extracted_field, details in fields.items():
+            sentiment = details['sentiment']
+            
+            # Match the company name from the fields if needed
+            if "Auto Parts-" in company_name:
+                match = re.search(r"Auto Parts-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+            elif "Auto manufacturers - Major-" in company_name:
+                match = re.search(r"Auto manufacturers - Major-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+
+            sentiment_records.append([company_name, extracted_field, sentiment])
+
+    # Create DataFrame for the sentiment data
+    df_json_sentiment = pd.DataFrame(sentiment_records, columns=['Company', 'Extracted_field', 'Sentiment'])
+    
     if not df.empty:
+        # Save extracted ESG results to CSV
         csv_path = os.path.join(tempfile.gettempdir(), "esg_extraction_results.csv")
         df.to_csv(csv_path, index=False)
-        return df, csv_path, df_sentiment_results
+
+        # Save sentiment analysis results to CSV
+        sentiment_csv_path = os.path.join(tempfile.gettempdir(), "sentiment_analysis_results.csv")
+        df_json_sentiment.to_csv(sentiment_csv_path, index=False)
+
+        return df, csv_path, df_sentiment_results, sentiment_csv_path
     else:
         return pd.DataFrame({"message": ["No data extracted"]}), ""
+
+
+
 
 
 
