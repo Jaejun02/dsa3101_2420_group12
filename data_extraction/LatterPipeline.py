@@ -3,12 +3,11 @@ import numpy as np
 import json
 import re
 import os
-from HelperFunctions import transform_row, group_company, fit_minmax, parse_filename
+from data_extraction.utils import transform_row, group_company, fit_minmax, parse_filename
 
 
-def main():
+def latterpipeline(df):
     # Reading Files
-    df = pd.read_csv('output_qwen32b.csv')
     with open('linkedin_scrape.json', 'r') as file:
         linkedin_scrape = json.load(file)
     df_st = pd.read_csv('standard.csv')
@@ -82,6 +81,3 @@ def main():
     transformed = '../data/nonnormalized.csv'
     df_scored.to_csv(scored)
     df_t.to_csv(transformed)
-
-if __name__ == '__main__':
-    main()
