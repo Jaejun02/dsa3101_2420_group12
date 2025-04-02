@@ -1,0 +1,10 @@
+{
+    "main_model_name": "Qwen/Qwen2.5-14B-Instruct",
+    "search_model_name": "BAAI/bge-m3",
+    "gpu_count": "Default",
+    "params": {
+        "top_k": 50,
+        "rerank_k": 200,
+        "alpha": 0.7
+    }
+}
