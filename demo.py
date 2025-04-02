@@ -264,7 +264,7 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     
     # df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
 
-      sentiment_results = sentiment_analysis(
+    sentiment_results = sentiment_analysis(
         df=df, 
         llm=main_model["model"], 
         sampling_params=main_model["sampling_params"], 
