@@ -2,7 +2,7 @@
 
 This project aims to automate the extraction and performance analysis of **Environmental, Social, and Governance (ESG)** data from unstructured ESG reports using **Large Language Models (LLMs)** and **Natural Language Processing (NLP)** techniques. The model extracts key metrics, enabling more efficient **ESG performance analysis**. This approach significantly enhances decision-making by providing scalable, automated solutions for analyzing complex ESG data across industries.
 
-### Features
+## Features
 
 ### Web Scraping
 - Automates the retrieval of ESG sustainability reports from corporate websites such as [reponsibilityreports.com](https://www.responsibilityreports.com/) for analysis.
@@ -25,37 +25,55 @@ This project aims to automate the extraction and performance analysis of **Envir
 - Deploys a user-friendly web interface for testing NLP models.
 - Allows easy interaction with search and extraction functionalities.
 
-### Installation Steps (Linux Environment)
-1. Create a virtual environment (conda or venv)
-2. Run `pip install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com`
-3. Run `pip install huggingface_hub`
-4. Run `python download_models_hf.py`
-5. Navigate to user directory `\home\username`, open `magic-pdf.json` and modify the value of `"device-mode"`
-```
-{
-  "device-mode": "cuda"
-}
-```
-6. Run `pip install -r requirements.txt`
-7. Run `python demo.py`
+## Installation
+### Linux Environment
+1. Create a virtual environment (`conda` or `venv`)
+2. Install magic-pdf
+   ```bash
+   pip install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com
+   ```
+3. Install Hugging Face Hub
+   ```bash
+   pip install huggingface_hub
+   ```
+4. Download required models
+   ```bash
+   python download_models_hf.py
+   ```
+5. Configure GPU mode
+   - Navigate to user directory `\home\username`, open `magic-pdf.json`
+   - Modify the value of `"device-mode"`:
+    ```json
+    {
+      "device-mode": "cuda"
+    }
+    ```
+6. Install dependencies
+   ```bash
+   pip install -r requirements.txt
+   ```
+8. Launch the demo
+   ```bash
+   python demo.py
+   ```
 
-### Installation (Windows Environment)
-1. Follow steps on the [mineru repo](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md).
-2. Same as steps 6-7 above.
+### Windows Environment
+1. Follow the [MinerU setup for Windows](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md).
+2. Repeat steps 6-7 from Linux setup above.
 
-### Running Docker Container
-1. Run the following commands:
+## Running Docker Container
+1. Run the following commands
+```bash
+docker build -t demo-app . # Build the container
+docker run --gpus all -p 7860:7860 demo-app # Run the container
 ```
-docker build -t demo-app . # building the container
-docker run --gpus all -p 7860:7860 demo-app # run the container
-```
-2. Go to the [port](http://localhost:7860)
+2. Go to [http://localhost:7860](http://localhost:7860)
 
-### Demo Project Usage Instructions
+## Demo Project Usage Instructions
 Clear examples of how to use the project once set up/installed.
-### Technologies Used
+## Technologies Used
 A list of tools, libraries, and frameworks utilized.
-### Models and Methods Used
+## Models and Methods Used
 Details on any algorithms, models, or methods used
-### Acknowledgements
+## Acknowledgements
 Any external resources
