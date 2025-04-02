@@ -1,17 +1,14 @@
 ## Table of Contents
-
-- [About the Project](#about-the-project)
+- [About the Project](#about-our-project)
 - [Overview](#overview)
 - [Installation Guide](#installation-guide)
   - [Linux Environment](#linux-environment)
   - [Windows Environment](#windows-environment)
   - [Running Docker Container](#running-docker-container)
 - [Demo Project Usage Instructions](#demo-project-usage-instructions)
-- [Technologies Used](#technologies-used)
-- [Models and Methods Used](#models-and-methods-used)
 - [Acknowledgements](#acknowledgements)
 
-# About the Project
+# About Our Project
 ### Automating ESG Data Extraction and Performance Analysis
 
 This project aims to automate the extraction and performance analysis of **Environmental, Social, and Governance (ESG)** data from unstructured ESG reports using **Large Language Models (LLMs)** and **Natural Language Processing (NLP)** techniques. The model extracts key metrics, enabling more efficient **ESG performance analysis**. This approach significantly enhances decision-making by providing scalable, automated solutions for analyzing complex ESG data across industries.
@@ -79,7 +76,7 @@ Clear examples of how to use the project once set up/installed.
 This project was developed with the support of various open-source tools, models, and data providers:
 
 - [responsibilityreports.com](https://www.responsibilityreports.com/) – For ESG report sourcing
-- [MinerU](https://github.com/opendatalab/MinerU) – OCR and layout analysis for PDF reports
+- [MinerU](https://github.com/opendatalab/MinerU) – OCR and layout analysis for ESG reports
 - [Hugging Face](https://huggingface.co/) – For hosting pre-trained LLMs and model APIs
 - [FAISS](https://github.com/facebookresearch/faiss) – Vector-based semantic search
 - [Gradio](https://gradio.app/) – For providing a simple interface to deploy ML demos
