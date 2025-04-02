@@ -747,3 +747,21 @@ def parse_filename(filename):
     except Exception as e:
         print(f"Error parsing {filename}: {str(e)}")
         return pd.Series([None, None, None])
+
+def get_size(count):
+    sizes = []
+    for cnt in count:
+        size = '1K-5K'
+        if cnt:
+            if cnt <= 500:
+                size = '201-500'
+            elif cnt <= 1000:
+                size = '501-1K'
+            elif cnt <= 5000:
+                size = '1K-5K'
+            elif cnt <= 10000:
+                size = '5K-10K'
+            else:
+                size = '10K+'
+        sizes.append(size)
+    return sizes

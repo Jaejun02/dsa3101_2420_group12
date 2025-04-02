@@ -3,22 +3,20 @@ import numpy as np
 import json
 import re
 import os
-from data_extraction.utils import transform_row, group_company, fit_minmax, parse_filename
+from utils import transform_row, group_company, fit_minmax, parse_filename, get_size
+from bs4 import BeautifulSoup
+import time
+import requests
 
-
-def latterpipeline(df):
+def latterpipeline(df, sentiment):
     # Reading Files
-    with open('linkedin_scrape.json', 'r') as file:
-        linkedin_scrape = json.load(file)
     df_st = pd.read_csv('standard.csv')
-    with open('sentiment_analysis_results.json', 'r') as file:
-        sentiment = json.load(file)
     with open('esg_weights.json', 'r') as file:
         esg_weights = json.load(file)
-
+    
     # Transform df
     df_t = df.apply(transform_row, axis=1)
-    df_t['size'] = linkedin_scrape['company_size']
+    df_t['size'] = get_size(list(df_t['Employee Count']))
     df_t = df_t.apply(group_company, axis=1)
 
     quantitatives = list(df_t.columns[1:11]) + list(df_t.columns[12:27])
@@ -77,7 +75,7 @@ def latterpipeline(df):
     df_t[['Industry', 'Company', 'Year']] = df_t['filename'].apply(parse_filename)
 
     # Output File
-    scored = '../data/final_output.csv'
-    transformed = '../data/nonnormalized.csv'
+    scored = '../data/esg_scores.csv'
+    transformed = '../data/esg_data_processed.csv'
     df_scored.to_csv(scored)
     df_t.to_csv(transformed)

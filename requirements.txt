@@ -8,3 +8,6 @@ rank-bm25==0.2.2
 sentence-transformers==4.0.1
 transformers==4.42.4
 vllm==0.5.3
+google==3.0.0
+selenium==4.30.0
+webdriver_manager==4.0.2
