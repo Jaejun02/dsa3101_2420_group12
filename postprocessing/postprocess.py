@@ -8,21 +8,43 @@ from bs4 import BeautifulSoup
 import time
 import requests
 
+def 
+
 def postprocess(df, sentiment):
-    # Reading Files
+    """
+    Given extracted esg data with sentiment analysis results, unifies the units of each columns and scores each company.
+    
+    Args:
+        df -> pd.DataFrame: The extracted raw data from PDFs using LLM models.
+        sentiment -> Dictionary: The sentiment analysis results of qualitative datas.
+    
+    Returns:
+        None. Creates two csv files, esg_scores.csv (scores) and esg_data_processed.csv (the unified results).
+    """
+    # Reading in required files
     df_st = pd.read_csv('standard.csv')
     with open('esg_weights.json', 'r') as file:
         esg_weights = json.load(file)
     
-    # Transform df
+    # Unifying units of the df
     df_t = df.apply(transform_row, axis=1)
     df_t['size'] = get_size(list(df_t['Employee Count']))
     df_t = df_t.apply(group_company, axis=1)
 
+    # Transforming df to prepare for scoring.
     quantitatives = list(df_t.columns[1:11]) + list(df_t.columns[12:27])
     qualitatives = list(df_t.columns[-10:-1])
 
-    def normalize_qn1(row):
+    def find_difference(row):
+        """
+        Given a row of the df, compares with the standard (specific to each company size) and returns the difference.
+
+        Args:
+            row -> pd.DataFrame[row]: A single row of the df.
+        
+        Returns:
+            row -> pd.DataFrame[row]: The processed row containing differences with the standards.
+        """
         signs = [-1,-1,-1,-1,1,-1,-1,-1,1,1,-1,-1,-1,1,1,0,0,-1,1,-1,-1,-1,-1,-1,1]
         cond = df_st[df_st['size'] == row['size']]
         for i,col in enumerate(quantitatives):
@@ -31,7 +53,16 @@ def postprocess(df, sentiment):
             else:
                 row[col] = float(1 - (row[col] - cond[col])**2)
         return row
-    def normalize_qn2(df):
+    def normalize(df):
+        """
+        Given a df, normalize each column such that the values fall between -1 to 1.
+        
+        Args: 
+            df -> pd.DataFrame: A df with only numerical columns.
+
+        Returns: 
+            df -> pd.DataFrame: A normalized df.
+        """
         for col in quantitatives:
             tmp = df[col]
             tmp_max = np.max(df[col])
@@ -39,12 +70,28 @@ def postprocess(df, sentiment):
             df[col] = (2*(tmp - tmp_min) - tmp_max + tmp_min)/(tmp_max - tmp_min)
         return df
 
-    def noramlize_quantitative(df):
-        df_res = df.apply(normalize_qn1, axis=1)
-        df_res = normalize_qn2(df_res)
+    def transform_quantitative(df):
+        """
+        Finds difference of each row with the standard values and normalizes it.
+
+        Args: 
+            df -> pd.DataFrame: The df of raw extracted data's numerical columns.
+        Returns:
+            df_res -> pd.DataFrame: The df that contains normalized differences of the values with the standards.
+        """
+        df_res = df.apply(find_difference, axis=1)
+        df_res = normalize(df_res)
         return df_res
 
-    def restructure_ql(df, sentiment):
+    def restructure_qualitative(df, sentiment):
+        """
+        Incorporates sentiment analysis results into dataframe.
+
+        Args:
+            df -> pd.DataFrame: The df that only contains qualitative data.
+        Returns: 
+            df -> pd.DataFrame: The df where texts are replaced with sentiment analysis results.
+        """
         df['filename'] = df_t['filename']
         for company, senti in sentiment.items():
             row = df[df['filename'] == company]
@@ -61,11 +108,13 @@ def postprocess(df, sentiment):
         df = df.drop(columns=['filename'], errors='ignore')
         return df
 
-    df_quanti = noramlize_quantitative(df_t)
+    df_quanti = transform_quantitative(df_t)
     df_quanti = df_quanti[['filename'] + quantitatives]
     df_quali = pd.DataFrame(np.nan, index=range(61), columns=qualitatives)
-    df_quali = restructure_ql(df_quali, sentiment)
+    df_quali = restructure_qualitative(df_quali, sentiment)
     df_norm = pd.concat([df_quanti, df_quali], axis=1).fillna(-0.2)
+
+    # Scoring the companies
     df_norm['e_score'] = df_norm.iloc[:,[1,2,3,4,5,6,7,8,9,10,24,25,26,27,28,33,34]] @ esg_weights['E']['Coef'] + esg_weights['E']['Intercept']
     df_norm['s_score'] = df_norm.iloc[:,[11,12,13,14,15,16,17,29,30]] @ esg_weights['S']['Coef'] + esg_weights['S']['Intercept']
     df_norm['g_score'] = df_norm.iloc[:,[18,19,20,21,22,23,31,32]] @ esg_weights['G']['Coef'] + esg_weights['G']['Intercept']

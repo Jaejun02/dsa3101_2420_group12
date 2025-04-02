@@ -4,6 +4,15 @@ import re
 import os
 
 def transform_row(row):
+    """
+    Transforms each row's quantitative columns such that the units of each columns are unified.
+
+    Args:
+        row -> pd.DataFrame[row]: A single row of the dataframe.
+    Returns:
+        row -> pd.DataFrame[row]: The units unified row of the dataframe.
+    """    
+    
     row = row.map(lambda x: np.nan if isinstance(x, str) and "No data available" in x else x)
     row = row.fillna("")
 
@@ -700,6 +709,15 @@ def transform_row(row):
     return row
 
 def group_company(row):
+    """
+    Based on the company size, assigns a 'size' group for each company.
+
+    Args:
+        row -> pd.DataFrame[row]: A single row of the dataframe.
+    
+    Returns:
+        row -> pd.DataFrame[row]: The same row with 'size' column added.
+    """
     if row['size'] in ['10K+', '5K-10K']:
         row['size'] = 'Large'
     elif row['size'] in ['501-1K', '1K-5K']:
@@ -709,6 +727,14 @@ def group_company(row):
     return row
 
 def fit_minmax(row):
+    """
+    For companies with scores greater than 100 or less 0, forces that score to fall between 0 and 100.
+
+    Args:
+        row -> pd.DataFrame[row]: A single row of the dataframe.
+    Returns:
+        row -> pd.DataFrame[row]: The row where scores are forced to fall between 0 and 100.
+    """
     for score in ['esg_score', 'e_score', 's_score', 'g_score']:
         if row[score] > 100:
             row[score] = 100
@@ -718,6 +744,14 @@ def fit_minmax(row):
     return row
 
 def parse_filename(filename):
+    """
+    Given the list of destinations paths of the processed files, transforms it into Industry, Comoapny Name, and Year of the report.
+    
+    Args:
+        filename -> List[String]: List of filepaths.
+    Returns:
+        res -> Series[String]: Pandas series containing industry name, company name, and year of the report.
+    """
     try:
         # Remove path and extension
         clean_name = os.path.splitext(os.path.basename(filename))[0]
@@ -741,14 +775,24 @@ def parse_filename(filename):
         else:
             industry = base.strip()
             company = 'Not Reported'
-        
-        return pd.Series([industry, company, year])
+        res = pd.Series([industry, company, year])
+        return res
     
     except Exception as e:
         print(f"Error parsing {filename}: {str(e)}")
-        return pd.Series([None, None, None])
+        res = pd.Series([None, None, None])
+        return res
 
 def get_size(count):
+    """
+    Based on the count, determines the company size.
+
+    Args:
+        count -> Series[int]: The pandas series containing the employee count of each company.
+    
+    Returns:
+        sizes -> List[String]: The list that contains determined company sizes.
+    """
     sizes = []
     for cnt in count:
         size = '1K-5K'

@@ -30,7 +30,7 @@ class ResponsibilityReports:
         """
         This function scrapes the responsibilityreports.com website to find Industries that 
         falls under Automotive Industries.
-        Input: 
+        Args: 
             None.
         Returns:
             download_urls -> List[String]: List of URLs to download ESG Reports.
@@ -80,7 +80,7 @@ class ResponsibilityReports:
         """
         This function downloads the PDF from the given single URL and saves it to the output path.
         It additionally logs the Industry and Company names, and url to a text file.
-        Input:
+        Args:
             url -> String: URL to download the PDF.
             output_path -> String: Path to save the downloaded PDF.
         Returns:
@@ -111,7 +111,7 @@ class ResponsibilityReports:
     def download_reports(self, scrape_url = False):
         """
         This function downloads the ESG Reports from the URLs obtained from webscrape_report_urls function.
-        Input:
+        Args:
             None.
         Returns:
             Result -> String: Summary statement of the download process.
