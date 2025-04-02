@@ -74,9 +74,17 @@ docker run --gpus all -p 7860:7860 demo-app # Run the container
 
 ## Demo Project Usage Instructions
 Clear examples of how to use the project once set up/installed.
-## Technologies Used
-A list of tools, libraries, and frameworks utilized.
-## Models and Methods Used
-Details on any algorithms, models, or methods used
+
 ## Acknowledgements
-Any external resources
+This project was developed with the support of various open-source tools, models, and data providers:
+
+- [responsibilityreports.com](https://www.responsibilityreports.com/) – For ESG report sourcing
+- [MinerU](https://github.com/opendatalab/MinerU) – OCR and layout analysis for PDF reports
+- [Hugging Face](https://huggingface.co/) – For hosting pre-trained LLMs and model APIs
+- [FAISS](https://github.com/facebookresearch/faiss) – Vector-based semantic search
+- [Gradio](https://gradio.app/) – For providing a simple interface to deploy ML demos
+- [Power BI](https://powerbi.microsoft.com/) – For enabling dashboarding and data visualization
+
+
+  
+
