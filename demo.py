@@ -398,16 +398,19 @@ def create_gradio_interface():
                     # Output components
                     output_display = gr.Dataframe(label="Extracted ESG Data", interactive=False)
                     download_button = gr.File(label="Download CSV")
+                    # Output Sentiment Analysis components
+                    sentiment_output_display = gr.Dataframe(label="Sentiment Analysis Results", interactive=False) 
+                    sentiment_download_button = gr.File(label="Download Sentiment Analysis CSV")  
             
             # Set up processing logic
             def process_and_display(files, top_k_val, rerank_k_val, alpha_val):
                 if not files:
-                    return pd.DataFrame({"message": ["No files uploaded"]}), None
+                    return pd.DataFrame({"message": ["No files uploaded"]}), None, None, None
                 
                 # Check if model is initialized
                 global main_model, search_engine, tokenizer
                 if main_model is None or search_engine is None or tokenizer is None:
-                    return pd.DataFrame({"message": ["Please initialize models first"]}), None
+                    return pd.DataFrame({"message": ["Please initialize models first"]}), None, None, None
                 
                 # Gather parameters
                 params = {
@@ -421,12 +424,12 @@ def create_gradio_interface():
                     search_engine["params"] = params
                 
                 # Process files
-                df, csv_path = process_files(files, params)
+                df, csv_path, df_sentiment_results, sentiment_csv_path = process_files(files, params)
                 
                 if not csv_path:
-                    return df, None
+                    return df, None, None, None
                 
-                return df, csv_path
+                return df, csv_path, df_sentiment_results, sentiment_csv_path
             
             # Connect components
             process_button.click(
@@ -435,7 +438,7 @@ def create_gradio_interface():
                     file_input,
                     process_top_k, process_rerank_k, process_alpha
                 ],
-                outputs=[output_display, download_button]
+                outputs=[output_display, download_button,sentiment_output_display, sentiment_download_button]
             )
     
     return demo
