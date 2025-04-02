@@ -3,8 +3,7 @@
 - [Overview](#overview)
 - [Installation Guide](#installation-guide)
   - [Linux Environment](#linux-environment)
-  - [Windows Environment](#windows-environment)
-  - [Running Docker Container](#running-docker-container)
+  - [Docker](#docker)
 - [Demo Project Usage Instructions](#demo-project-usage-instructions)
 - [Acknowledgements](#acknowledgements)
 
@@ -28,7 +27,8 @@ The model extracts key ESG metrics, enabling faster and more consistent performa
 | **Gradio Interface**  | - Deploys a user-friendly web interface for testing NLP models <br /> - Allows easy interaction with search and extraction functionalities |
 
 ## Installation Guide
-### Linux Environment (For others, please use Docker, ensure that your machine has a GPU)
+### Linux Environment 
+**For others, we recommend using the Docker setup and ensuring your machine has GPU support enabled**
 1. Create a virtual environment (`conda` or `venv`)
 2. Install magic-pdf
    ```bash
