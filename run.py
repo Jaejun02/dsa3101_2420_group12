@@ -12,10 +12,12 @@ from transformers import AutoTokenizer
 import re
 from search_engine.engine import ESGSearchEngine
 import nltk
+from huggingface_hub import login
 
-main_model = None
-search_engine = None
-tokenizer = None
+hf_token = os.getenv("HF_TOKEN")
+if hf_token is None:
+    raise ValueError("HF_TOKEN environment variable is not set.")
+login(token=hf_token)
 
 def get_available_gpus():
     """
@@ -45,24 +47,24 @@ def get_params():
         gpu_count: Number of GPUs to use
         params: Dictionary of parameters
     """
-    with open('./data/config.json') as file:
+    with open('./data/config/config.json') as file:
         config = json.load(file)
-    return config.values()
+    return config['main_model_name'], config['search_model_name'], config['gpu_count'], config['params'], config['use_quantization']
 
 def initialize_models():
     """
     Initialize the main LLM, search engine, and tokenizer based on user selection.
     
     Args:
-        None        
+        None.     
     Returns:
         Status message
     """
-    global main_model, search_engine, tokenizer
-    
-    main_model_name, search_model_name, gpu_count, params = get_all_params()
+
+
+    main_model_name, search_model_name, gpu_count, params, use_quantization = get_params()
     if gpu_count == "Default":
-        gpu_count = get_available_gpus()
+        gpu_count = get_available_gpus()[0]
 
     status_message = ""
     
@@ -74,24 +76,29 @@ def initialize_models():
         from vllm import LLM, SamplingParams
         
         # Initialize with vLLM
-        model = LLM(
-            model=main_model_name,
-            tensor_parallel_size=gpu_count,
-            dtype="half",  # Use half precision for better memory usage
-            trust_remote_code=True,
-            gpu_memory_utilization=0.5,
-            max_model_len=32768,
-            # enforce_eager=True,  # Enforce eager mode to avoid CUDA graphs which use signals
-            # disable_custom_all_reduce=True if gpu_count > 1 else False  # Disable custom all-reduce for multi-GPU
-        )
+        model_kwargs = {
+            "model": main_model_name,
+            "tensor_parallel_size": gpu_count,
+            "dtype": "half",  # Use half precision for better memory usage
+            "trust_remote_code": True,
+            "gpu_memory_utilization": 0.5,
+            "max_model_len": 32768,
+        }
         
+        # Add quantization parameter if enabled
+        if use_quantization:
+            model_kwargs["quantization"] = "AWQ"
+
+        # Initialize the model with all parameters
+        model = LLM(**model_kwargs)
+
         # Set sampling parameters from user inputs
         sampling_params = SamplingParams(
             temperature=params.get("temperature", 0.7),
             top_p=params.get("top_p", 0.95),
             max_tokens=params.get("max_tokens", 512)
         )
-        
+
         # Store model and sampling parameters globally
         main_model = {
             "model": model,
@@ -100,15 +107,16 @@ def initialize_models():
         }
         
         status_message += f"Main model '{main_model_name}' initialized successfully\n"
+        if use_quantization:
+            status_message += f"Quantization: AWQ enabled\n"
     except Exception as e:
         status_message += f"Error initializing main model: {e}\n"
-    
     # Initialize search engine
     try:
         print(f"Initializing search engine with model: {search_model_name}")
         
         # Import your ESGSearchEngine here
-        from transformers import AutoTokenizer
+        from search_engine.engine import ESGSearchEngine
         
         # Ensure NLTK resources are available
         try:
@@ -156,20 +164,20 @@ def initialize_models():
     except Exception as e:
         status_message += f"Error initializing tokenizer: {e}"
     
-    return status_message
+    print(status_message)
+    return main_model, search_engine, tokenizer
 
 def process_files():
     """
-    Process files in the ./data folder.
+    Process files in the ./data/pdfs folder.
     
     Args:
-        Nonbe.
+        None.
         
     Returns:
         Tuple containing DataFrame of extracted data and path to CSV file
     """
-    global main_model, search_engine, tokenizer
-    
+    main_model, search_engine, tokenizer = initialize_models()
     _,_,_,params = get_params()
 
     # Check if models are initialized
@@ -179,8 +187,8 @@ def process_files():
     # Extract text from PDFs
     pdf_texts = []
     filenames = []
-    all_entries = os.listdir('./data')
-    files = [entry for entry in all_entries if os.path.isfile(os.path.join('./data', entry))]
+    all_entries = os.listdir('./data/pdfs')
+    files = [os.path.join('./data/pdfs', entry) for entry in all_entries if os.path.isfile(os.path.join('./data/pdfs', entry))]
     for file_path in files:
         file_name = os.path.basename(file_path)
         file_ext = os.path.splitext(file_name)[1].lower()
@@ -226,32 +234,42 @@ def process_files():
     results["filename"] = filenames
     df = pd.DataFrame.from_dict(results)
 
-    qualitative_columns = [
-        "Narrative on Sustainability Goals and Actions",
-        "Progress Updates on Emission Reduction Targets",
-        "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
-        "Narrative on Workforce Diversity Employee Well-being and Safety",
-        "Disclosure on Community Engagement and Social Impact Initiatives",
-        "Narrative on Governance Framework and Board Diversity",
-        "Disclosure on ESG Risk Management and Stakeholder Engagement",
-        "Narrative on Innovations in Sustainable Technologies and Product Design",
-        "Disclosure on Sustainable Supply Chain Management Practices"
-    ]
-    
-    df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
-
     sentiment_results = sentiment_analysis(
-        df=df_sentiment, 
+        df=df, 
         llm=main_model["model"], 
         sampling_params=main_model["sampling_params"], 
         tokenizer=tokenizer
     )
 
-    with open('./data/sentiment_analysis_results.json', 'w') as file:
-        json.dump(sentiment_results, file, indent=4)
+    df_data, df_score = postprocess(df, sentiment_results)
 
-    postprocess(df, sentiment_results)
+    file_company_dict = {}
+    for i, row in df.iterrows():
+        file_company_dict[row['filename']] = row['Company']
+
+    # Convert sentiment analysis results into a DataFrame for CSV output
+    sentiment_records = []
+    for company_name, fields in sentiment_results.items():
+        for extracted_field, details in fields.items():
+            sentiment = details.get('sentiment', 'Unknown')
+            
+            # Match the company name from the fields if needed
+            if "Auto Parts-" in company_name:
+                match = re.search(r"Auto Parts-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+            elif "Auto manufacturers - Major-" in company_name:
+                match = re.search(r"Auto manufacturers - Major-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+
+            sentiment_records.append([file_company_dict[company_name], extracted_field, sentiment])
+    
+    df_json_sentiment = pd.DataFrame(sentiment_records, columns=['Company', 'Extracted_field', 'Sentiment'])
+
+    df_data.to_csv('./data/results/esg_extraction_results.csv', index=False)
+    df_score.to_csv('./data/results/esg_scoring_results.csv', index=False)
+    df_json_sentiment.to_csv('./data/results/sentiment_analysis_results.csv', index=False)
 
 if __name__ == "__main__":
-    initialize_models()
     process_files()
