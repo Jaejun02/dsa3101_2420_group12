@@ -28,7 +28,7 @@ The model extracts key ESG metrics, enabling faster and more consistent performa
 | **Gradio Interface**  | - Deploys a user-friendly web interface for testing NLP models <br /> - Allows easy interaction with search and extraction functionalities |
 
 ## Installation Guide
-### Linux Environment
+### Linux Environment (For others, please use Docker, ensure that your machine has a GPU)
 1. Create a virtual environment (`conda` or `venv`)
 2. Install magic-pdf
    ```bash
@@ -59,11 +59,7 @@ The model extracts key ESG metrics, enabling faster and more consistent performa
    python demo.py
    ```
 
-### Windows Environment
-1. Follow the [MinerU setup for Windows](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md)
-2. Repeat steps 6-7 from Linux setup above
-
-### Running Docker Container
+### Docker
 1. Run the following commands
 ```bash
 docker build -t demo-app . # Build the container
