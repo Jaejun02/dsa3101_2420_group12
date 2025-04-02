@@ -1,20 +1,19 @@
 ## Table of Contents
-
-- [About the Project](#about-the-project)
+- [About Our Project](#about-our-project)
 - [Overview](#overview)
 - [Installation Guide](#installation-guide)
   - [Linux Environment](#linux-environment)
   - [Windows Environment](#windows-environment)
   - [Running Docker Container](#running-docker-container)
 - [Demo Project Usage Instructions](#demo-project-usage-instructions)
-- [Technologies Used](#technologies-used)
-- [Models and Methods Used](#models-and-methods-used)
 - [Acknowledgements](#acknowledgements)
 
-# About the Project
+# About Our Project
 ### Automating ESG Data Extraction and Performance Analysis
 
-This project aims to automate the extraction and performance analysis of **Environmental, Social, and Governance (ESG)** data from unstructured ESG reports using **Large Language Models (LLMs)** and **Natural Language Processing (NLP)** techniques. The model extracts key metrics, enabling more efficient **ESG performance analysis**. This approach significantly enhances decision-making by providing scalable, automated solutions for analyzing complex ESG data across industries.
+This project aims to automate the extraction and performance analysis of **Environmental, Social, and Governance (ESG)** data from unstructured ESG reports using **Large Language Models (LLMs)** and **Natural Language Processing (NLP)** techniques.
+
+The model extracts key ESG metrics, enabling faster and more consistent performance analysis. By automating the interpretation of complex sustainability data, it provides a scalable solution that enhances decision-making across industries.
 
 ## Overview
 
@@ -61,8 +60,8 @@ This project aims to automate the extraction and performance analysis of **Envir
    ```
 
 ### Windows Environment
-1. Follow the [MinerU setup for Windows](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md).
-2. Repeat steps 6-7 from Linux setup above.
+1. Follow the [MinerU setup for Windows](https://github.com/opendatalab/MinerU/blob/master/docs/README_Windows_CUDA_Acceleration_en_US.md)
+2. Repeat steps 6-7 from Linux setup above
 
 ### Running Docker Container
 1. Run the following commands
@@ -72,11 +71,62 @@ docker run --gpus all -p 7860:7860 demo-app # Run the container
 ```
 2. Go to [http://localhost:7860](http://localhost:7860)
 
+
 ## Demo Project Usage Instructions
-Clear examples of how to use the project once set up/installed.
-## Technologies Used
-A list of tools, libraries, and frameworks utilized.
-## Models and Methods Used
-Details on any algorithms, models, or methods used
+
+### Accessing the Interface
+- Connect to `localhost:7860`. This will automatically direct you to the Gradio-based user interface.
+
+### Selecting the LLM Model
+- Choose the primary Large Language Model (LLM) for processing.
+- There is an option to apply quantization to the GPU, which reduces memory consumption and speeds up inference. However, this comes at the expense of slight performance and accuracy trade-offs.
+
+### Choosing the Semantic Search Model
+- Select the Semantic Search Model. Currently, only one option is available.
+
+### Configuring the LLM Parameters
+- **Temperature**: Controls the randomness of the model’s output.
+  - Lower value (e.g., `0.2`) → More deterministic responses.
+  - Higher value (e.g., `0.8`) → Increased diversity.
+- **Top-p (Nucleus Sampling)**: Determines the probability threshold for selecting tokens.
+  - A value of `0.9` means the model considers only the top 90% of probable next words, reducing randomness but maintaining variety.
+- **Max Tokens**: Specifies the maximum number of tokens (words or subwords) the model is allowed to generate in a single response.
+
+### Setting the Search Parameters
+- **Top-k**: Defines how many top search results to consider.
+  - A higher value broadens the search space but may introduce less relevant results.
+- **Rerank-k**: Specifies how many of the top-k search results should be re-evaluated and reordered for improved relevance.
+- **Alpha**: A weighting factor that balances between keyword-based search and semantic similarity-based retrieval.
+
+### Initializing Models
+1. Click on **"Initialize Models"**.
+2. Wait for the system to complete the initialization process.
+3. The interface will confirm successful initialization of three key components.
+
+### Uploading Files for Processing
+- Upload the required **PDF** or **text** files.
+- The system supports multiple file uploads.
+
+### Extracting ESG Data
+- Click on **"Extract ESG Data"** to initiate the extraction process.
+- The system will generate and display the following results:
+  - **ESG Extraction Results**
+  - **Sentiment Analysis Results**
+  - **ESG Scoring Results**
+
+### Downloading Processed Data
+- Download the generated **CSV** files as needed for further analysis and reporting.
+
 ## Acknowledgements
-Any external resources
+This project was developed with the support of various open-source tools, models, and data providers:
+
+- [responsibilityreports.com](https://www.responsibilityreports.com/) – For ESG report sourcing
+- [MinerU](https://github.com/opendatalab/MinerU) – OCR and layout analysis for ESG reports
+- [Hugging Face](https://huggingface.co/) – For hosting pre-trained LLMs and model APIs
+- [FAISS](https://github.com/facebookresearch/faiss) – Vector-based semantic search
+- [Gradio](https://gradio.app/) – For providing a simple interface to deploy ML demos
+- [Power BI](https://powerbi.microsoft.com/) – For enabling dashboarding and data visualization
+
+
+  
+
