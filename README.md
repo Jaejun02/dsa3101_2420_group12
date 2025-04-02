@@ -136,7 +136,7 @@ Then, visit [http://localhost:7860](http://localhost:7860) to open the Gradio-ba
 
 * **Search Parameters**
   * **Top-k:** Number of top search results to consider.
-  * **Rerank-k:** Number of resu;ts re-evaluated for relevance.
+  * **Rerank-k:** Number of results re-evaluated for relevance.
   * **Alpha**: Balances keyword-based and semantic search contributions to importance.
 
 * **Model Initialization:**
