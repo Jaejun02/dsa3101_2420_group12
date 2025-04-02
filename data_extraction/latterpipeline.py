@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 import time
 import requests
 
-def latterpipeline(df, sentiment, sentiment):
+def latterpipeline(df, sentiment):
     # Reading Files
     df_st = pd.read_csv('standard.csv')
     with open('esg_weights.json', 'r') as file:
