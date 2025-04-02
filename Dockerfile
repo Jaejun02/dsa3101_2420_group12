@@ -25,6 +25,7 @@ COPY download_models_hf.py /app/download_models_hf.py
 # Install Python dependencies
 RUN pip3 install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com
 RUN pip3 install huggingface_hub
+RUN pip3 install faiss-gpu
 RUN python3 download_models_hf.py
 RUN pip3 install --no-cache-dir -r requirements.txt
 
@@ -35,4 +36,4 @@ COPY . /app
 EXPOSE 7860
 
 # Set the default command to run the script
-CMD ["python3", "demo.py"]
+CMD ["python3", "demo_with_quant.py"]
