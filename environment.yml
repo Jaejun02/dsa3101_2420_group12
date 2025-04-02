@@ -3,28 +3,19 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12
-  - requests
-  - beautifulsoup4
-  - urllib3
-  - ipykernel
+  - python=3.9
   - pip
-  - selenium
-  - pandas
-  - numpy
-  - transformers
-  - huggingface_hub
-  - tokenizers
-  - sentencepiece
-  - pytorch
-  - jupyter
-  - ipywidgets
-  - nltk
-  - python-dotenv
-  - faiss-cpu
   - pip:
-      - python-dotenv
-      - accelerate
-      - bitsandbytes
-      - sentence-transformers
-      - rank-bm25
+      - beautifulsoup4==4.13.3
+      - faiss-gpu==1.7.2
+      - gradio==5.23.1
+      - langchain-text-splitters==0.3.7
+      - nltk==3.9.1
+      - pandas==2.2.3
+      - rank-bm25==0.2.2
+      - sentence-transformers==4.0.1
+      - transformers==4.42.4
+      - vllm==0.5.3
+      - google==3.0.0
+      - selenium==4.30.0
+      - webdriver_manager==4.0.2
