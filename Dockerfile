@@ -36,4 +36,4 @@ COPY . /app
 EXPOSE 7860
 
 # Set the default command to run the script
-CMD ["python3", "demo_with_quant.py"]
+CMD ["python3", "demo.py"]

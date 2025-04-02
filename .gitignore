@@ -104,3 +104,6 @@ venv.bak/
 /data/processed/
 /data/txts
 /data/*.py
+
+# .gradio
+.gradio/
