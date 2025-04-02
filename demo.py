@@ -229,17 +229,69 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
         search_engine=search_engine["engine"],
         args=args
     )
-    
+
     results["filename"] = filenames
     df = pd.DataFrame.from_dict(results)
+
+    qualitative_columns = [
+        "Narrative on Sustainability Goals and Actions",
+        "Progress Updates on Emission Reduction Targets",
+        "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
+        "Narrative on Workforce Diversity Employee Well-being and Safety",
+        "Disclosure on Community Engagement and Social Impact Initiatives",
+        "Narrative on Governance Framework and Board Diversity",
+        "Disclosure on ESG Risk Management and Stakeholder Engagement",
+        "Narrative on Innovations in Sustainable Technologies and Product Design",
+        "Disclosure on Sustainable Supply Chain Management Practices"
+    ]
     
-    # Save to CSV
+    df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
+
+    sentiment_results = sentiment_analysis(
+        df=df_sentiment, 
+        llm=main_model["model"], 
+        sampling_params=main_model["sampling_params"], 
+        tokenizer=tokenizer
+    )
+
+    df_sentiment_results = pd.DataFrame.from_dict(sentiment_results)
+    
+    # Convert sentiment analysis results into a DataFrame for CSV output
+    sentiment_records = []
+    for company_name, fields in sentiment_results.items():
+        for extracted_field, details in fields.items():
+            sentiment = details['sentiment']
+            
+            # Match the company name from the fields if needed
+            if "Auto Parts-" in company_name:
+                match = re.search(r"Auto Parts-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+            elif "Auto manufacturers - Major-" in company_name:
+                match = re.search(r"Auto manufacturers - Major-(.*?)-\d{4}", company_name)
+                if match:
+                    company_name = match.group(1).lower()
+
+            sentiment_records.append([company_name, extracted_field, sentiment])
+
+    # Create DataFrame for the sentiment data
+    df_json_sentiment = pd.DataFrame(sentiment_records, columns=['Company', 'Extracted_field', 'Sentiment'])
+    
     if not df.empty:
+        # Save extracted ESG results to CSV
         csv_path = os.path.join(tempfile.gettempdir(), "esg_extraction_results.csv")
         df.to_csv(csv_path, index=False)
-        return df, csv_path
+
+        # Save sentiment analysis results to CSV
+        sentiment_csv_path = os.path.join(tempfile.gettempdir(), "sentiment_analysis_results.csv")
+        df_json_sentiment.to_csv(sentiment_csv_path, index=False)
+
+        return df, csv_path, df_sentiment_results, sentiment_csv_path
     else:
         return pd.DataFrame({"message": ["No data extracted"]}), ""
+
+
+
 
 
 
@@ -346,16 +398,19 @@ def create_gradio_interface():
                     # Output components
                     output_display = gr.Dataframe(label="Extracted ESG Data", interactive=False)
                     download_button = gr.File(label="Download CSV")
+                    # Output Sentiment Analysis components
+                    sentiment_output_display = gr.Dataframe(label="Sentiment Analysis Results", interactive=False) 
+                    sentiment_download_button = gr.File(label="Download Sentiment Analysis CSV")  
             
             # Set up processing logic
             def process_and_display(files, top_k_val, rerank_k_val, alpha_val):
                 if not files:
-                    return pd.DataFrame({"message": ["No files uploaded"]}), None
+                    return pd.DataFrame({"message": ["No files uploaded"]}), None, None, None
                 
                 # Check if model is initialized
                 global main_model, search_engine, tokenizer
                 if main_model is None or search_engine is None or tokenizer is None:
-                    return pd.DataFrame({"message": ["Please initialize models first"]}), None
+                    return pd.DataFrame({"message": ["Please initialize models first"]}), None, None, None
                 
                 # Gather parameters
                 params = {
@@ -369,12 +424,12 @@ def create_gradio_interface():
                     search_engine["params"] = params
                 
                 # Process files
-                df, csv_path = process_files(files, params)
+                df, csv_path, df_sentiment_results, sentiment_csv_path = process_files(files, params)
                 
                 if not csv_path:
-                    return df, None
+                    return df, None, None, None
                 
-                return df, csv_path
+                return df, csv_path, df_sentiment_results, sentiment_csv_path
             
             # Connect components
             process_button.click(
@@ -383,7 +438,7 @@ def create_gradio_interface():
                     file_input,
                     process_top_k, process_rerank_k, process_alpha
                 ],
-                outputs=[output_display, download_button]
+                outputs=[output_display, download_button,sentiment_output_display, sentiment_download_button]
             )
     
     return demo
