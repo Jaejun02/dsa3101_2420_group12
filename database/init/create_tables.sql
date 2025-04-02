@@ -1,7 +1,7 @@
 -- create_tables.sql
 
--- 1) Create table for nonnormalized.csv
-CREATE TABLE nonnormalized (
+-- 1) Create table for esg_extraction_results.csv
+CREATE TABLE esg_extraction_results (
     id SERIAL PRIMARY KEY,
     filename TEXT,
     total_energy_consumption_in_production NUMERIC,
@@ -45,9 +45,8 @@ CREATE TABLE nonnormalized (
     year INT
 );
 
-
--- Create a new table for esg_scores.csv
-CREATE TABLE esg_scores (
+-- 2) Create table for esg_scoring_results.csv
+CREATE TABLE esg_scoring_results (
     id SERIAL PRIMARY KEY,
     filename TEXT,
     total_energy_consumption_in_production NUMERIC,
@@ -93,38 +92,36 @@ CREATE TABLE esg_scores (
     year INT
 );
 
-
--- 2) Create table for sentiment.csv
-CREATE TABLE sentiment (
+-- 3) Create table for sentiment_analysis_results.csv
+CREATE TABLE sentiment_analysis_results (
     company TEXT,
     extracted_field TEXT,
     sentiment TEXT
 );
 
--- 3) Create table for the new file, metrics.csv
+-- 4) Create table for metrics.csv
 CREATE TABLE metrics (
     metric TEXT,
     unit TEXT
 );
 
--- 3) Import data from CSV files
---    Adjust DELIMITER if not comma, or remove HEADER if your files lack headers
-COPY nonnormalized
-FROM '/docker-entrypoint-initdb.d/nonnormalized.csv'
+-- 5) Import data from CSV files
+COPY esg_extraction_results
+FROM '/docker-entrypoint-initdb.d/esg_extraction_results.csv'
 DELIMITER ','
 CSV HEADER;
 
-COPY sentiment
-FROM '/docker-entrypoint-initdb.d/sentiment.csv'
+COPY esg_scoring_results
+FROM '/docker-entrypoint-initdb.d/esg_scoring_results.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY sentiment_analysis_results
+FROM '/docker-entrypoint-initdb.d/sentiment_analysis_results.csv'
 DELIMITER ','
 CSV HEADER;
 
 COPY metrics
 FROM '/docker-entrypoint-initdb.d/metrics.csv'
-DELIMITER ','
-CSV HEADER;
-
-COPY esg_scores
-FROM '/docker-entrypoint-initdb.d/esg_scores.csv'
 DELIMITER ','
 CSV HEADER;
