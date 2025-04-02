@@ -113,6 +113,9 @@ docker run --gpus all -p 7860:7860 demo-app # Run the container
 ### Downloading Processed Data
 - Download the generated **CSV** files as needed for further analysis and reporting.
 
+### Power BI Dashboarding 
+- Read `instructions.txt` in the `database` folder [here](https://github.com/Jaejun02/dsa3101_2420_group12/tree/main/database) for detailed instructions on setting up and running the interactive dashboard.
+
 ## Acknowledgements
 This project was developed with the support of various open-source tools, models, and data providers:
 
