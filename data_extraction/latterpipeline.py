@@ -6,13 +6,11 @@ import os
 from data_extraction.utils import transform_row, group_company, fit_minmax, parse_filename
 
 
-def latterpipeline(df):
+def latterpipeline(df, sentiment):
     # Reading Files
     with open('linkedin_scrape.json', 'r') as file:
         linkedin_scrape = json.load(file)
     df_st = pd.read_csv('standard.csv')
-    with open('sentiment_analysis_results.json', 'r') as file:
-        sentiment = json.load(file)
     with open('esg_weights.json', 'r') as file:
         esg_weights = json.load(file)
 

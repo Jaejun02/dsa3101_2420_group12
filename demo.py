@@ -10,7 +10,6 @@ import json
 import numpy as np
 from transformers import AutoTokenizer
 import re
-from search_engine.engine import ESGSearchEngine
 import nltk
 
 
@@ -43,11 +42,20 @@ def get_available_models():
     # These are example models - replace with your actual available models
     return {
         "main_models": [
+            "Qwen/Qwen2.5-1.5B-Instruct",
             "Qwen/Qwen2.5-3B-Instruct",
             "Qwen/Qwen2.5-7B-Instruct",
             "Qwen/Qwen2.5-14B-Instruct",
-            "Qwen/Qwen2.5-32B-Instruct"
-            
+            "Qwen/Qwen2.5-32B-Instruct",
+            "Qwen/Qwen2.5-72B-Instruct"
+        ],
+        "quantized_models": [
+            "Qwen/Qwen2.5-1.5B-Instruct-AWQ",
+            "Qwen/Qwen2.5-3B-Instruct-AWQ",
+            "Qwen/Qwen2.5-7B-Instruct-AWQ",
+            "Qwen/Qwen2.5-14B-Instruct-AWQ",
+            "Qwen/Qwen2.5-32B-Instruct-AWQ",
+            "Qwen/Qwen2.5-72B-Instruct-AWQ"
         ],
         "search_models": [
             "BAAI/bge-m3",
@@ -55,16 +63,16 @@ def get_available_models():
     }
 
 
-def initialize_models(main_model_name, search_model_name, gpu_count, params):
+def initialize_models(main_model_name, search_model_name, gpu_count, params, use_quantization=False):
     """
     Initialize the main LLM, search engine, and tokenizer based on user selection.
     
     Args:
         main_model_name: Name of the main model to initialize
         search_model_name: Name of the search model to initialize
-        tokenizer_model_name: Name of the tokenizer model to initialize
         gpu_count: Number of GPUs to use
         params: Dictionary of parameters
+        use_quantization: Whether to use quantized models (AWQ)
         
     Returns:
         Status message
@@ -76,21 +84,27 @@ def initialize_models(main_model_name, search_model_name, gpu_count, params):
     # Initialize main model
     try:
         print(f"Initializing main model: {main_model_name} with {gpu_count} GPUs")
+        print(f"Using quantization: {'Yes (AWQ)' if use_quantization else 'No'}")
         
         # Import here to avoid loading at startup
         from vllm import LLM, SamplingParams
         
         # Initialize with vLLM
-        model = LLM(
-            model=main_model_name,
-            tensor_parallel_size=gpu_count,
-            dtype="half",  # Use half precision for better memory usage
-            trust_remote_code=True,
-            gpu_memory_utilization=0.5,
-            max_model_len=32768,
-            # enforce_eager=True,  # Enforce eager mode to avoid CUDA graphs which use signals
-            # disable_custom_all_reduce=True if gpu_count > 1 else False  # Disable custom all-reduce for multi-GPU
-        )
+        model_kwargs = {
+            "model": main_model_name,
+            "tensor_parallel_size": gpu_count,
+            "dtype": "half",  # Use half precision for better memory usage
+            "trust_remote_code": True,
+            "gpu_memory_utilization": 0.5,
+            "max_model_len": 32768,
+        }
+        
+        # Add quantization parameter if enabled
+        if use_quantization:
+            model_kwargs["quantization"] = "AWQ"
+        
+        # Initialize the model with all parameters
+        model = LLM(**model_kwargs)
         
         # Set sampling parameters from user inputs
         sampling_params = SamplingParams(
@@ -107,6 +121,8 @@ def initialize_models(main_model_name, search_model_name, gpu_count, params):
         }
         
         status_message += f"Main model '{main_model_name}' initialized successfully\n"
+        if use_quantization:
+            status_message += f"Quantization: AWQ enabled\n"
     except Exception as e:
         status_message += f"Error initializing main model: {e}\n"
     
@@ -115,7 +131,7 @@ def initialize_models(main_model_name, search_model_name, gpu_count, params):
         print(f"Initializing search engine with model: {search_model_name}")
         
         # Import your ESGSearchEngine here
-        from transformers import AutoTokenizer
+        from search_engine.engine import ESGSearchEngine
         
         # Ensure NLTK resources are available
         try:
@@ -233,22 +249,23 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     results["filename"] = filenames
     df = pd.DataFrame.from_dict(results)
 
-    qualitative_columns = [
-        "Narrative on Sustainability Goals and Actions",
-        "Progress Updates on Emission Reduction Targets",
-        "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
-        "Narrative on Workforce Diversity Employee Well-being and Safety",
-        "Disclosure on Community Engagement and Social Impact Initiatives",
-        "Narrative on Governance Framework and Board Diversity",
-        "Disclosure on ESG Risk Management and Stakeholder Engagement",
-        "Narrative on Innovations in Sustainable Technologies and Product Design",
-        "Disclosure on Sustainable Supply Chain Management Practices"
-    ]
+    # qualitative_columns = [
+    #     "Narrative on Sustainability Goals and Actions",
+    #     "Progress Updates on Emission Reduction Targets",
+    #     "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
+    #     "Narrative on Workforce Diversity Employee Well-being and Safety",
+    #     "Disclosure on Community Engagement and Social Impact Initiatives",
+    #     "Narrative on Governance Framework and Board Diversity",
+    #     "Disclosure on ESG Risk Management and Stakeholder Engagement",
+    #     "Narrative on Innovations in Sustainable Technologies and Product Design",
+    #     "Disclosure on Sustainable Supply Chain Management Practices",
+    #     "filename"
+    # ]
     
-    df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
+    # df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
 
     sentiment_results = sentiment_analysis(
-        df=df_sentiment, 
+        df=df, 
         llm=main_model["model"], 
         sampling_params=main_model["sampling_params"], 
         tokenizer=tokenizer
@@ -292,9 +309,6 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
 
 
 
-
-
-
 def create_gradio_interface():
     """
     Create and launch the Gradio interface.
@@ -311,6 +325,13 @@ def create_gradio_interface():
         with gr.Tab("Model Configuration"):
             with gr.Row():
                 with gr.Column(scale=1):
+                    # Quantization toggle
+                    use_quantization = gr.Checkbox(
+                        label="Use Quantization (AWQ)",
+                        value=False,
+                        info="Enable model quantization to reduce memory usage and improve performance"
+                    )
+                    
                     # Model selection
                     main_model_dropdown = gr.Dropdown(
                         choices=available_models["main_models"],
@@ -350,9 +371,25 @@ def create_gradio_interface():
             initialize_button = gr.Button("Initialize Models", variant="primary")
             model_status = gr.Textbox(value="Models not initialized", label="Model Status", interactive=False)
             
+            # Update model dropdown based on quantization toggle
+            def update_model_dropdown(use_quant):
+                if use_quant:
+                    return gr.Dropdown(choices=available_models["quantized_models"], 
+                                      value=available_models["quantized_models"][0] if available_models["quantized_models"] else None)
+                else:
+                    return gr.Dropdown(choices=available_models["main_models"], 
+                                      value=available_models["main_models"][0] if available_models["main_models"] else None)
+            
+            # Connect the toggle to update model dropdown
+            use_quantization.change(
+                fn=update_model_dropdown,
+                inputs=[use_quantization],
+                outputs=[main_model_dropdown]
+            )
+            
             # Initialize models function
             def init_models(main_model_name, search_model_name, gpu_count, temp, top_p_val, max_tok, 
-                           top_k_val, rerank_k_val, alpha_val):
+                           top_k_val, rerank_k_val, alpha_val, use_quant):
                 params = {
                     "temperature": temp,
                     "top_p": top_p_val,
@@ -361,7 +398,7 @@ def create_gradio_interface():
                     "rerank_k": rerank_k_val,
                     "alpha": alpha_val
                 }
-                return initialize_models(main_model_name, search_model_name, gpu_count, params)
+                return initialize_models(main_model_name, search_model_name, gpu_count, params, use_quant)
             
             # Connect initialization
             initialize_button.click(
@@ -369,7 +406,7 @@ def create_gradio_interface():
                 inputs=[
                     main_model_dropdown, search_model_dropdown, gpu_dropdown,
                     temperature, top_p, max_tokens,
-                    top_k, rerank_k, alpha
+                    top_k, rerank_k, alpha, use_quantization
                 ],
                 outputs=[model_status]
             )
@@ -438,7 +475,7 @@ def create_gradio_interface():
                     file_input,
                     process_top_k, process_rerank_k, process_alpha
                 ],
-                outputs=[output_display, download_button,sentiment_output_display, sentiment_download_button]
+                outputs=[output_display, download_button, sentiment_output_display, sentiment_download_button]
             )
     
     return demo

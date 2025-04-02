@@ -23,7 +23,7 @@ with open("./prompts/oneshots.json", 'r') as file:
     examples = json.load(file)
     
 with open('./prompts/sentiment_context.json', 'r') as file:
-    sentiment_analysis = json.load(file)
+    sentiment_analysis_json = json.load(file)
 
 
 def extract(pdf_texts, llm, sampling_params, tokenizer, search_engine, args):
@@ -41,7 +41,6 @@ def extract(pdf_texts, llm, sampling_params, tokenizer, search_engine, args):
                 tokenizer.pad_token_id = tokenizer.eos_token_id
 
             results, _ = search_engine.combined_search(semantic_query, keyword_query_list, rerank_k = args.rerank_k, top_k=args.top_k, alpha=args.alpha)
-            print("Got results")
             
             text_input = ""
             for text in results:
@@ -100,7 +99,7 @@ def extract(pdf_texts, llm, sampling_params, tokenizer, search_engine, args):
 
 def sentiment_analysis(df, llm, sampling_params, tokenizer):
     df_big = df.map(lambda x: np.nan if isinstance(x, str) and "No data available" in x else x)
-    qualitative_columns = sentiment_analysis.keys()
+    qualitative_columns = sentiment_analysis_json.keys()
     input_texts = []
     identifiers = []
     for row in df_big.iterrows():
@@ -113,10 +112,10 @@ def sentiment_analysis(df, llm, sampling_params, tokenizer):
                     
                     Background:
                     'This analysis focuses on evaluating ESG reports, where the accuracy and integrity of the environmental, social, and governance disclosures are critical. Analysts assess not only the reported data but also the credibility of the claims, the robustness of the reporting metrics, and potential signals of greenwashing. Key considerations include environmental performance (carbon emissions, energy efficiency, waste management), social factors (labor practices, diversity and inclusion, community engagement), and governance aspects (board structure, transparency, risk management).'
-                    {sentiment_analysis[col]['background']}
+                    {sentiment_analysis_json[col]['background']}
                     
                     Few-shot Examples:
-                    {sentiment_analysis[col]['example']}
+                    {sentiment_analysis_json[col]['example']}
                     
                     Instructions:
                     1. Analyze the sentiment of the given sentence using SMART analysis (Specific, Measurable, Attainable, Relevant, and Timely) as your guiding framework.
