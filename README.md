@@ -22,9 +22,6 @@ This project automates the extraction and performance analysis of **Environmenta
 - **Web Scraping:**  
   Automates the retrieval of ESG sustainability reports from corporate websites such as [responsibilityreports.com](https://www.responsibilityreports.com/).
 
-- **Data Extraction:**  
-  Utilizes utility functions and predefined scoring mechanisms to extract ESG information. Integrates ESG scores from LSEG and LinkedIn-sourced data for benchmarking and validation.
-
 - **Data Pre-processing:**  
   Employs Optical Character Recognition (OCR) and layout analysis with the pre-trained **MinerU** model to extract text from unstructured PDF reports. Also leverages LLMs for image and chart analysis.
 
@@ -33,6 +30,9 @@ This project automates the extraction and performance analysis of **Environmenta
 
 - **Semantic Search:**  
   Implements a **FAISS-based** semantic search that supports both keyword-based and context-driven retrieval of ESG documents.
+
+- **Data Extraction:**  
+  Utilizes utility functions and predefined scoring mechanisms to extract ESG information. Integrates ESG scores from LSEG and LinkedIn-sourced data for benchmarking and validation.
 
 - **Visualization:**  
   Provides interactive Power BI dashboards for a structured display of ESG performance metrics.
