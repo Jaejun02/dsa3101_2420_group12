@@ -264,20 +264,18 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     
     # df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
 
-    sentiment_results = sentiment_analysis(
+      sentiment_results = sentiment_analysis(
         df=df, 
         llm=main_model["model"], 
         sampling_params=main_model["sampling_params"], 
         tokenizer=tokenizer
     )
-
-    df_sentiment_results = pd.DataFrame.from_dict(sentiment_results)
     
     # Convert sentiment analysis results into a DataFrame for CSV output
     sentiment_records = []
     for company_name, fields in sentiment_results.items():
         for extracted_field, details in fields.items():
-            sentiment = details['sentiment']
+            sentiment = details.get('sentiment', 'Unknown')
             
             # Match the company name from the fields if needed
             if "Auto Parts-" in company_name:
@@ -290,23 +288,21 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
                     company_name = match.group(1).lower()
 
             sentiment_records.append([company_name, extracted_field, sentiment])
-
-    # Create DataFrame for the sentiment data
+    
     df_json_sentiment = pd.DataFrame(sentiment_records, columns=['Company', 'Extracted_field', 'Sentiment'])
     
     if not df.empty:
         # Save extracted ESG results to CSV
         csv_path = os.path.join(tempfile.gettempdir(), "esg_extraction_results.csv")
         df.to_csv(csv_path, index=False)
-
+        
         # Save sentiment analysis results to CSV
         sentiment_csv_path = os.path.join(tempfile.gettempdir(), "sentiment_analysis_results.csv")
         df_json_sentiment.to_csv(sentiment_csv_path, index=False)
-
-        return df, csv_path, df_sentiment_results, sentiment_csv_path
+        
+        return df, csv_path, df_json_sentiment, sentiment_csv_path
     else:
         return pd.DataFrame({"message": ["No data extracted"]}), ""
-
 
 
 def create_gradio_interface():
