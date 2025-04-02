@@ -3,7 +3,7 @@ import numpy as np
 import json
 import re
 import os
-from utils import transform_row, group_company, fit_minmax, parse_filename, get_size
+from postprocessing.helper import transform_row, group_company, fit_minmax, parse_filename, get_size
 from bs4 import BeautifulSoup
 import time
 import requests
@@ -23,8 +23,8 @@ def postprocess(df, sentiment):
     if df.empty:
         return df, None
     # Reading in required files
-    df_st = pd.read_csv('standard.csv')
-    with open('esg_weights.json', 'r') as file:
+    df_st = pd.read_csv(f'{os.getcwd()}/postprocessing/standard.csv')
+    with open(f'{os.getcwd()}/postprocessing/esg_weights.json', 'r') as file:
         esg_weights = json.load(file)
     
     # Unifying units of the df
@@ -33,8 +33,8 @@ def postprocess(df, sentiment):
     df_t = df_t.apply(group_company, axis=1)
 
     # Transforming df to prepare for scoring.
-    quantitatives = list(df_t.columns[1:11]) + list(df_t.columns[12:27])
-    qualitatives = list(df_t.columns[-10:-1])
+    quantitatives = list(df_t.columns[:10]) + list(df_t.columns[11:26])
+    qualitatives = list(df_t.columns[-11:-2])
 
     def find_difference(row):
         """
@@ -111,7 +111,7 @@ def postprocess(df, sentiment):
 
     df_quanti = transform_quantitative(df_t)
     df_quanti = df_quanti[['filename'] + quantitatives]
-    df_quali = pd.DataFrame(np.nan, index=range(61), columns=qualitatives)
+    df_quali = pd.DataFrame(np.nan, index=range(len(df_t)), columns=qualitatives)
     df_quali = restructure_qualitative(df_quali, sentiment)
     df_norm = pd.concat([df_quanti, df_quali], axis=1).fillna(-0.2)
 
@@ -125,8 +125,8 @@ def postprocess(df, sentiment):
     df_t[['Industry', 'Company', 'Year']] = df_t['filename'].apply(parse_filename)
 
     # Output File
-    scored = '../data/esg_scores.csv'
-    transformed = '../data/esg_data_processed.csv'
-    df_scored.to_csv(scored)
-    df_t.to_csv(transformed)
+    # scored = f'{os.getcwd()}/data/esg_scores.csv'
+    # transformed = f'{os.getcwd()}/data/esg_data_processed.csv'
+    # df_scored.to_csv(scored)
+    # df_t.to_csv(transformed)
     return df_t, df_scored
