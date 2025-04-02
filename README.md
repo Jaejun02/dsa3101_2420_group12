@@ -88,12 +88,12 @@ This project automates the extraction and performance analysis of **Environmenta
 
 ### Docker Setup
 1. **Prepare the Data Directory Structure:**
-  ```bash
-  /data/  
-  ├── pdfs/      # Place ESG PDF Reports here
-  ├── config/    # Include your config.json file here
-  └── results/   # Processed results will be stored here
-  ```
+   ```bash
+   /data/
+   ├── pdfs/      # Place ESG PDF Reports here
+   ├── config/    # Include your config.json file here
+   └── results/   # Processed results will be stored here
+   ```
 2. **Build the Docker Container:**
    ```bash
    docker build -t app .
