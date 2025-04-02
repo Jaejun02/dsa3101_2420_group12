@@ -48,6 +48,7 @@ This project automates the extraction and performance analysis of **Environmenta
 2. **Install Magic-PDF:**
    ```bash
    pip install -U magic-pdf[full] --extra-index-url https://wheels.myhloli.com
+   ```
 3. **Install Hugging Face Hub:**
    ```bash
    pip install huggingface_hub
@@ -78,7 +79,7 @@ This project automates the extraction and performance analysis of **Environmenta
   python run.py
   ```
 
-### Windows/MacOS/Other Environment
+### Windows/macOS/Other Environment
 **Note:** The **vllm** component is currently Linux-only. For other OS:
 * **Docker Container**:
   Run the project within a Linux Container
@@ -127,20 +128,20 @@ Then, visit [http://localhost:7860](http://localhost:7860) to open the Gradio-ba
 - Optionally enable GPU quantization to balance speed, memory usage, and accuracy.
 
 * **Semantic Search Model Selection**
-- Select the Semantic Search Model (Currently,single semantic search model is supported.)
+- Select the Semantic Search Model (Currently, a single semantic search model is supported.)
 
 * **LLM Parameters Configurations**
   * **Temperature**: Control output randomness (e.g., `0.2` for deterministic responses, `0.8` for diverse outputs.)
-  * **Top-p (Nucleus Sampling):** Limits token selection probability (e.g., `0.9 includes the top 90% of probable tokens.)
+  * **Top-p (Nucleus Sampling):** Limits token selection probability (e.g., `0.9` includes the top 90% of probable tokens.)
   * **Max Tokens:** Specifies the maximum tokens for responses.
 
 * **Search Parameters**
   * **Top-k:** Number of top search results to consider.
-  * **Rerank-k:** Number of resu;ts re-evaluated for relevance.
+  * **Rerank-k:** Number of results re-evaluated for relevance.
   * **Alpha**: Balances keyword-based and semantic search contributions to importance.
 
 * **Model Initialization:**
-Click **Initiliaze Models** and wait for confirmation that the models have loaded successfully. (The successfulness of the 3 Key components will be displayed.)
+Click **Initialize Models** and wait for confirmation that the models have loaded successfully. (The successfulness of the 3 Key components will be displayed.)
 
 * **File Uploads:**
 Upload one or more PDF/text files to start the extraction process.
