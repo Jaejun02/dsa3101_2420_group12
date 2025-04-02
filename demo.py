@@ -1,5 +1,6 @@
 from extract import extract, sentiment_analysis
 from preprocessing.extract_pdf import extract_text_from_pdf
+from postprocessing.postprocess import postprocess
 import gradio as gr
 import pandas as pd
 import os
@@ -264,12 +265,18 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     
     # df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
 
-      sentiment_results = sentiment_analysis(
+    sentiment_results = sentiment_analysis(
         df=df, 
         llm=main_model["model"], 
         sampling_params=main_model["sampling_params"], 
         tokenizer=tokenizer
     )
+
+    df, df_score = postprocess(df, sentiment_results)
+
+    file_company_dict = {}
+    for i, row in df.iterrows():
+        file_company_dict[row['filename']] = row['Company']
     
     # Convert sentiment analysis results into a DataFrame for CSV output
     sentiment_records = []
@@ -287,7 +294,7 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
                 if match:
                     company_name = match.group(1).lower()
 
-            sentiment_records.append([company_name, extracted_field, sentiment])
+            sentiment_records.append([file_company_dict[company_name], extracted_field, sentiment])
     
     df_json_sentiment = pd.DataFrame(sentiment_records, columns=['Company', 'Extracted_field', 'Sentiment'])
     
@@ -299,8 +306,12 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
         # Save sentiment analysis results to CSV
         sentiment_csv_path = os.path.join(tempfile.gettempdir(), "sentiment_analysis_results.csv")
         df_json_sentiment.to_csv(sentiment_csv_path, index=False)
+
+        # Save scoring results to CSV
+        score_csv_path = os.path.join(tempfile.gettempdir(), "esg_scoring_results.csv")
+        df_score.to_csv(score_csv_path, index=False)
         
-        return df, csv_path, df_json_sentiment, sentiment_csv_path
+        return df, csv_path, df_json_sentiment, sentiment_csv_path, df_score, score_csv_path
     else:
         return pd.DataFrame({"message": ["No data extracted"]}), ""
 
@@ -429,21 +440,24 @@ def create_gradio_interface():
                 
                 with gr.Column(scale=2):
                     # Output components
-                    output_display = gr.Dataframe(label="Extracted ESG Data", interactive=False)
+                    output_display = gr.Dataframe(label="Extracted/Unified ESG Data", interactive=False)
                     download_button = gr.File(label="Download CSV")
                     # Output Sentiment Analysis components
                     sentiment_output_display = gr.Dataframe(label="Sentiment Analysis Results", interactive=False) 
                     sentiment_download_button = gr.File(label="Download Sentiment Analysis CSV")  
+                    # Output Scoring components
+                    scoring_output_display = gr.Dataframe(label="ESG Scoring Results", interactive=False) 
+                    scoring_download_button = gr.File(label="Download ESG Scoring CSV")  
             
             # Set up processing logic
             def process_and_display(files, top_k_val, rerank_k_val, alpha_val):
                 if not files:
-                    return pd.DataFrame({"message": ["No files uploaded"]}), None, None, None
+                    return pd.DataFrame({"message": ["No files uploaded"]}), None, None, None, None, None
                 
                 # Check if model is initialized
                 global main_model, search_engine, tokenizer
                 if main_model is None or search_engine is None or tokenizer is None:
-                    return pd.DataFrame({"message": ["Please initialize models first"]}), None, None, None
+                    return pd.DataFrame({"message": ["Please initialize models first"]}), None, None, None, None, None
                 
                 # Gather parameters
                 params = {
@@ -457,12 +471,12 @@ def create_gradio_interface():
                     search_engine["params"] = params
                 
                 # Process files
-                df, csv_path, df_sentiment_results, sentiment_csv_path = process_files(files, params)
+                df, csv_path, df_sentiment_results, sentiment_csv_path, df_score, score_csv_path = process_files(files, params)
                 
                 if not csv_path:
-                    return df, None, None, None
+                    return df, None, None, None, None, None
                 
-                return df, csv_path, df_sentiment_results, sentiment_csv_path
+                return df, csv_path, df_sentiment_results, sentiment_csv_path, df_score, score_csv_path
             
             # Connect components
             process_button.click(
@@ -471,7 +485,8 @@ def create_gradio_interface():
                     file_input,
                     process_top_k, process_rerank_k, process_alpha
                 ],
-                outputs=[output_display, download_button, sentiment_output_display, sentiment_download_button]
+                outputs=[output_display, download_button, sentiment_output_display, 
+                sentiment_download_button, scoring_output_display, scoring_download_button]
             )
     
     return demo
@@ -480,4 +495,3 @@ if __name__ == "__main__":
     demo = create_gradio_interface()
     # Configure server to be accessible remotely
     demo.launch(server_name="0.0.0.0", server_port=7860, share=False)
-    

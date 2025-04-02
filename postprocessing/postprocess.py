@@ -8,8 +8,6 @@ from bs4 import BeautifulSoup
 import time
 import requests
 
-def 
-
 def postprocess(df, sentiment):
     """
     Given extracted esg data with sentiment analysis results, unifies the units of each columns and scores each company.
@@ -19,8 +17,11 @@ def postprocess(df, sentiment):
         sentiment -> Dictionary: The sentiment analysis results of qualitative datas.
     
     Returns:
-        None. Creates two csv files, esg_scores.csv (scores) and esg_data_processed.csv (the unified results).
+        df_t: The unit unified version of the extracted data.
+        df_scored: The dataframe that contains E, S, G, and ESG score for each company.
     """
+    if df.empty:
+        return df, None
     # Reading in required files
     df_st = pd.read_csv('standard.csv')
     with open('esg_weights.json', 'r') as file:
@@ -128,3 +129,4 @@ def postprocess(df, sentiment):
     transformed = '../data/esg_data_processed.csv'
     df_scored.to_csv(scored)
     df_t.to_csv(transformed)
+    return df_t, df_scored
