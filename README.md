@@ -5,19 +5,19 @@ This project aims to automate the extraction and performance analysis of **Envir
 ### Features
 
 ### Web Scraping
-- Automates the retrieval of ESG sustainability reports from corporate websites such as [reponsibility.com](https://www.responsibilityreports.com/) for analysis.
+- Automates the retrieval of ESG sustainability reports from corporate websites such as [reponsibilityreports.com](https://www.responsibilityreports.com/) for analysis.
 ### Data Extraction
 - Extracts ESG-related information from ESG reports using utility functions and predefined scoring mechanisms.
 - Incorporates ESG scores from LSEG and LinkedIn-scraped data for benchmarking and validation.
 ### Data Pre-processing
-- Utilizes Optical Character Recognition and Layout Analysis using pre-trained model MinerU to extract textual data from unstructured ESG PDF reports
-- Leveraged LLMs to analyse images, charts and visual data for textual content
+- Utilizes Optical Character Recognition and Layout Analysis using pre-trained model MinerU to extract textual data from unstructured ESG PDF reports.
+- Leveraged LLMs to analyse images, charts and visual data for textual content.
 ### Prompt Engineering
 - Optimizes LLM prompts to extract meaningful ESG insights.
 - Fine-tunes input formatting for improved model responses.
 ### Search Engine
 - Implements **FAISS-based** semantic search for ESG document retrieval.
-- Supports both **keyword-based and vector-based** searches.
+- Supports both **keyword-based and semantic** searches.
 ### Power BI Dashboarding
 - Visualizes ESG performance metrics using interactive Power BI dashboards.
 - Provides structured insights for stakeholders.
