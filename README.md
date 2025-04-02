@@ -124,36 +124,36 @@ Then, visit [http://localhost:7860](http://localhost:7860) to open the Gradio-ba
 
 ### Interface Configurations
 * **LLM Model Selection:**
-- Choose the primary Large Language Model (LLM) for processing.
-- Optionally enable GPU quantization to balance speed, memory usage, and accuracy.
+  - Choose the primary Large Language Model (LLM) for processing.
+  - Optionally enable GPU quantization to balance speed, memory usage, and accuracy.
 
 * **Semantic Search Model Selection**
-- Select the Semantic Search Model (Currently, a single semantic search model is supported.)
+  - Select the Semantic Search Model (Currently, a single semantic search model is supported.)
 
 * **LLM Parameters Configurations**
-  * **Temperature**: Control output randomness (e.g., `0.2` for deterministic responses, `0.8` for diverse outputs.)
-  * **Top-p (Nucleus Sampling):** Limits token selection probability (e.g., `0.9` includes the top 90% of probable tokens.)
-  * **Max Tokens:** Specifies the maximum tokens for responses.
+  - **Temperature**: Control output randomness (e.g., `0.2` for deterministic responses, `0.8` for diverse outputs.)
+  - **Top-p (Nucleus Sampling):** Limits token selection probability (e.g., `0.9` includes the top 90% of probable tokens.)
+  - **Max Tokens:** Specifies the maximum tokens for responses.
 
 * **Search Parameters**
-  * **Top-k:** Number of top search results to consider.
-  * **Rerank-k:** Number of results re-evaluated for relevance.
-  * **Alpha**: Balances keyword-based and semantic search contributions to importance.
+  - **Top-k:** Number of top search results to consider.
+  - **Rerank-k:** Number of results re-evaluated for relevance.
+  - **Alpha**: Balances keyword-based and semantic search contributions to importance.
 
 * **Model Initialization:**
-Click **Initialize Models** and wait for confirmation that the models have loaded successfully. (The successfulness of the 3 Key components will be displayed.)
+  Click **Initialize Models** and wait for confirmation that the models have loaded successfully. (The successfulness of the 3 Key components will be displayed.)
 
 * **File Uploads:**
-Upload one or more PDF/text files to start the extraction process.
+  Upload one or more PDF/text files to start the extraction process.
 
 * **Data Extraction:**
-Click **Extract ESG Data** to generate:
-  * ESG Extraction Results
-  * Sentiment Analysis Results
-  * ESG Scoring Results
+  Click **Extract ESG Data** to generate:
+    - ESG Extraction Results
+    - Sentiment Analysis Results
+    - ESG Scoring Results
 
 * **Data Download**
-Processed CSV files can be downloaded for further analysis.
+  Processed CSV files can be downloaded for further analysis.
 
 ## Dashboard Integration
 Follow the detailed instructions in `instructions.txt` (located in the database folder [here](https://github.com/Jaejun02/dsa3101_2420_group12/tree/main/database)) to set up and run the interactive Power BI dashboards. Visit the [Power BI documentation](https://www.microsoft.com/en-us/power-platform/products/power-bi/) for further guidance.
