@@ -1,6 +1,6 @@
 from extract import extract, sentiment_analysis
 from preprocessing.extract_pdf import extract_text_from_pdf
-from data_extraction.latterpipeline import latterpipeline
+from postprocessing.postprocess import postprocess
 import pandas as pd
 import os
 import tempfile
@@ -250,7 +250,7 @@ def process_files():
     with open('./data/sentiment_analysis_results.json', 'w') as file:
         json.dump(sentiment_results, file, indent=4)
 
-    latterpipeline(df, sentiment_results)
+    postprocess(df, sentiment_results)
 
 if __name__ == "__main__":
     initialize_models()
