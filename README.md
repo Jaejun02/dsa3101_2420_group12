@@ -22,10 +22,10 @@ This project aims to automate the extraction and performance analysis of **Envir
 |------------------------|-------------|
 | **Web Scraping** | - Automates the retrieval of ESG sustainability reports from corporate websites such as [reponsibilityreports.com](https://www.responsibilityreports.com/) for analysis |
 | **Data Extraction**  | - Extracts ESG-related information from ESG reports using utility functions and predefined scoring mechanisms <br /> - Incorporates ESG scores from LSEG and LinkedIn-scraped data for benchmarking and validation |
-| **Data Pre-processing** | - Utilizes Optical Character Recognition and Layout Analysis using pre-trained model MinerU to extract <br /> textual data from unstructured ESG PDF reports <br /> - Leveraged LLMs to analyse images, charts and visual data for textual content.|
+| **Data Pre-processing** | - Utilizes Optical Character Recognition (OCR) and Layout Analysis using pre-trained model **MinerU** to extract textual data from unstructured ESG PDF reports <br /> - Leveraged LLMs to analyse images, charts and visual data for textual content.|
 | **Prompt Engineering**  | - Optimizes LLM prompts to extract meaningful ESG insights <br /> - Fine-tunes input formatting for improved model responses.|
 | **Search Engine**     | - Implements **FAISS-based** semantic search for ESG document retrieval <br /> - Supports both **keyword-based and semantic** searches. |
-| **Power BI Dashboarding** &nbsp; &nbsp; | - Visualizes ESG performance metrics using interactive Power BI dashboards <br /> - Provides structured insights for stakeholders |
+| **Power BI Dashboarding** | - Visualizes ESG performance metrics using interactive Power BI dashboards <br /> - Provides structured insights for stakeholders |
 | **Gradio Interface**  | - Deploys a user-friendly web interface for testing NLP models <br /> - Allows easy interaction with search and extraction functionalities |
 
 ## Installation Guide
