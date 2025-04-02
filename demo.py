@@ -250,21 +250,6 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     results["filename"] = filenames
     df = pd.DataFrame.from_dict(results)
 
-    # qualitative_columns = [
-    #     "Narrative on Sustainability Goals and Actions",
-    #     "Progress Updates on Emission Reduction Targets",
-    #     "Disclosure on Renewable Energy Initiatives and Resource Efficiency Practices",
-    #     "Narrative on Workforce Diversity Employee Well-being and Safety",
-    #     "Disclosure on Community Engagement and Social Impact Initiatives",
-    #     "Narrative on Governance Framework and Board Diversity",
-    #     "Disclosure on ESG Risk Management and Stakeholder Engagement",
-    #     "Narrative on Innovations in Sustainable Technologies and Product Design",
-    #     "Disclosure on Sustainable Supply Chain Management Practices",
-    #     "filename"
-    # ]
-    
-    # df_sentiment = df.loc[:, df.columns.intersection(qualitative_columns)]
-
     sentiment_results = sentiment_analysis(
         df=df, 
         llm=main_model["model"], 
@@ -273,6 +258,7 @@ def process_files(files: List[tempfile.NamedTemporaryFile], params: Dict[str, An
     )
 
     df, df_score = postprocess(df, sentiment_results)
+    df_score = df_score[['e_score', 's_score', 'g_score', 'esg_score', 'Company', 'Year']]
 
     file_company_dict = {}
     for i, row in df.iterrows():
