@@ -137,8 +137,8 @@ Then, visit [http://localhost:7860](http://localhost:7860) to open the Gradio-ba
 
 * **Search Parameters**
   - **Top-k:** Number of top search results to consider.
-  - **Rerank-k:** Number of results re-evaluated for relevance.
-  - **Alpha**: Balances keyword-based and semantic search contributions to importance.
+  - **Rerank-k:** Number of search results re-evaluated for relevance.
+  - **Alpha**: Balances keyword-based and semantic search contributions to search result importance.
 
 * **Model Initialization:**
   Click **Initialize Models** and wait for confirmation that the models have loaded successfully. (The successfulness of the 3 Key components will be displayed.)
