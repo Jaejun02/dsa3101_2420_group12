@@ -69,11 +69,17 @@ This project automates the extraction and performance analysis of **Environmenta
    ```bash
    pip install -r requirements.txt
    ```
-7. **Configure Environment Variables:**
-  Set up your `HF_TOKEN` in the `.env` file:
-  ```bash
-  HF_TOKEN=your_hf_token_goes_here
-  ```
+7. **Configure Variables:**
+    - Set up your `HF_TOKEN` in the `.env` file (in base location):
+    ```bash
+    HF_TOKEN=your_hf_token_goes_here
+    ```
+    - Set up the model configuration in the `config.json` file (in the `/data/config`):
+      - `main_model_name`: Name of the LLM used for extraction.
+      - `search_model_name`: Name of the RAG Search model used (Currently, only `BAAI/bge-m3` is supported.)
+      - `gpu_count`: Number of gpus to use. "Default" (uses all gpu available) by default.
+      - `params`: `top_k` (Number of top search results returned), `rerank_k` (Number of intermediate results considered for relevance), `alpha` (the weightage of semantic search result in reranking)
+      - `use_quantization`: Whether to use quantization model or not.
 8. **Run the Application**
   ```bash
   python run.py
@@ -136,8 +142,8 @@ Then, visit [http://localhost:7860](http://localhost:7860) to open the Gradio-ba
   - **Max Tokens:** Specifies the maximum tokens for responses.
 
 * **Search Parameters**
-  - **Top-k:** Number of top search results to consider.
-  - **Rerank-k:** Number of search results re-evaluated for relevance.
+  - **Top-k:** Number of top search results to be returned.
+  - **Rerank-k:** Number of intermediate search results re-evaluated for relevance.
   - **Alpha**: Balances keyword-based and semantic search contributions to search result importance.
 
 * **Model Initialization:**
