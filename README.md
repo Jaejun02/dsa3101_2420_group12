@@ -106,7 +106,7 @@ This project automates the extraction and performance analysis of **Environmenta
    ```
 3. **Run the Docker Container:**
    ```bash
-   docker run --gpus all --env-file .env -v ./data:/data app
+   docker run --gpus all --env-file .env -v "$(pwd)/data:/app/data" app
    ```
 4. **Access the Extraction Results:**
   Retrieve the extraction results in `/data/results/`.
